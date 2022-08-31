@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct ProfileView: View {
+	@State private var isSettingViewPresented: Bool = false
+	
+	
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		ScrollView(showsIndicators: false) {
+			
+		}
+		.navigationTitle("Profile")
+		.toolbar{
+			ToolbarItem(placement: .navigationBarTrailing) {
+				Button {
+					isSettingViewPresented.toggle()
+				} label: {
+					Image(systemName: "gear")
+				}
+
+			}
+		}
+		.sheet(isPresented: $isSettingViewPresented) {
+			SettingsView()
+		}
     }
 }
 

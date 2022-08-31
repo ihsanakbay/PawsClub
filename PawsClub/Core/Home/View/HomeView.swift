@@ -9,7 +9,22 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+		ScrollView(showsIndicators: false) {
+			LazyVStack {
+//				ForEach(viewModel.posts, id: \.id) { post in
+//					NavigationLink {
+//						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, ownerUid: post.ownerUid)))
+//					} label: {
+//						HomeCell(post: post, place: "")
+//					}
+//				}
+			}
+		}
+//		.onAppear {
+//			Task {
+//				await viewModel.fetchPosts()
+//			}
+//		}
     }
 }
 
