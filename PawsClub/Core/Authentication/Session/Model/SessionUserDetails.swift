@@ -8,6 +8,7 @@
 import Foundation
 
 struct SessionUserDetails: Codable {
+	let id: String
 	let email: String
 	let username: String
 	let fullname: String

@@ -41,39 +41,39 @@ struct MainTabView: View {
 			}
 			.navigationBarTitleDisplayMode(.inline)
 			.navigationTitle(router.page.rawValue.capitalized)
-//			.toolbar {
-//				ToolbarItem(placement: .navigationBarLeading) {
-//					if selectedTab == .Home {
-//						Button {
-//							isFilterSheetOpen.toggle()
-//						} label: {
-//							Image(systemName: "slider.horizontal.3")
-//						}
-//
-//					}
-//				}
-//				ToolbarItem(placement: .navigationBarTrailing) {
-//					if selectedTab == .Home {
-//						NavigationLink {
+			.toolbar {
+				ToolbarItem(placement: .navigationBarLeading) {
+					if router.page == .home {
+						Button {
+							isFilterSheetOpen.toggle()
+						} label: {
+							Image(systemName: "slider.horizontal.3")
+						}
+
+					}
+				}
+				ToolbarItem(placement: .navigationBarTrailing) {
+					if router.page == .home {
+						NavigationLink {
 //							PostAddView()
-//						} label: {
-//							Image(systemName: "plus.app.fill")
-//						}
-//						.font(.system(size: 20))
-//					}
-//
-//					if selectedTab == .Profile {
-//						Button {
-//							isSettingPresented.toggle()
-//						} label: {
-//							Image(systemName: "gear")
-//						}
-//					}
-//				}
-//			}
-//			.sheet(isPresented: $isSettingPresented) {
-//				SettingView()
-//			}
+						} label: {
+							Image(systemName: "plus.app.fill")
+						}
+						.font(.system(size: 20))
+					}
+
+					if router.page == .profile {
+						Button {
+							isSettingPresented.toggle()
+						} label: {
+							Image(systemName: "gear")
+						}
+					}
+				}
+			}
+			.sheet(isPresented: $isSettingPresented) {
+				SettingsView()
+			}
 //			.sheet(isPresented: $isFilterSheetOpen) {
 //				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
 //			}

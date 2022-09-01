@@ -68,7 +68,7 @@ final class SessionManager: SessionService {
 				else {return}
 				
 				DispatchQueue.main.async {
-					self.userDetails = SessionUserDetails(email: email, username: username, fullname: fullname, imageUrl: imageUrl)
+					self.userDetails = SessionUserDetails(id: uid, email: email, username: username, fullname: fullname, imageUrl: imageUrl)
 				}
 			}
 			.remove()

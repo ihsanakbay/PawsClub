@@ -15,20 +15,6 @@ struct ProfileView: View {
 		ScrollView(showsIndicators: false) {
 			
 		}
-		.navigationTitle("Profile")
-		.toolbar{
-			ToolbarItem(placement: .navigationBarTrailing) {
-				Button {
-					isSettingViewPresented.toggle()
-				} label: {
-					Image(systemName: "gear")
-				}
-
-			}
-		}
-		.sheet(isPresented: $isSettingViewPresented) {
-			SettingsView()
-		}
     }
 }
 

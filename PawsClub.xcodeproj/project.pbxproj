@@ -39,6 +39,9 @@
 		F91FCC3F28B2CE6800C0B07E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC3E28B2CE6800C0B07E /* FirebaseFirestore */; };
 		F91FCC4128B2CE6800C0B07E /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4028B2CE6800C0B07E /* FirebaseFirestoreSwift */; };
 		F91FCC4328B2CE6800C0B07E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4228B2CE6800C0B07E /* FirebaseStorage */; };
+		F9C1AA6B28C13FE100FC74AC /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */; };
+		F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2FFE728BFF82B00331EF6 /* Post.swift */; };
+		F9C2FFEA28BFF83300331EF6 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2FFE928BFF83300331EF6 /* PostService.swift */; };
 		F9E245B328B8184E009420AE /* RegisterCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E245B228B8184E009420AE /* RegisterCredentials.swift */; };
 		F9E245B628B818C3009420AE /* RegistrationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E245B528B818C3009420AE /* RegistrationService.swift */; };
 		F9FAC30428BD27F4005FAF4F /* LoginCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FAC30328BD27F4005FAF4F /* LoginCredentials.swift */; };
@@ -95,6 +98,9 @@
 		F91FCC3428B2CA1800C0B07E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F91FCC3728B2CAA200C0B07E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		F91FCC3928B2CDFA00C0B07E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
+		F9C2FFE728BFF82B00331EF6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		F9C2FFE928BFF83300331EF6 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		F9CCEB0528B6A78E004EFC44 /* PawsClub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PawsClub.entitlements; sourceTree = "<group>"; };
 		F9E245B228B8184E009420AE /* RegisterCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCredentials.swift; sourceTree = "<group>"; };
 		F9E245B528B818C3009420AE /* RegistrationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationService.swift; sourceTree = "<group>"; };
@@ -226,6 +232,7 @@
 				F91FCC0928B2AFA100C0B07E /* Home */,
 				F91FCC1328B2AFE500C0B07E /* Favorite */,
 				F91FCC0E28B2AFCE00C0B07E /* Profile */,
+				F9C2FFE428BFF7EB00331EF6 /* Post */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -251,6 +258,8 @@
 		F91FCC0928B2AFA100C0B07E /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				F9C2FFDF28BFF59800331EF6 /* Services */,
+				F9C2FFE028BFF59D00331EF6 /* Model */,
 				F91FCC0B28B2AFA900C0B07E /* ViewModel */,
 				F91FCC0A28B2AFA600C0B07E /* View */,
 			);
@@ -325,6 +334,7 @@
 		F91FCC1A28B2B59300C0B07E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F9C1AA6928C13FD400FC74AC /* Constants */,
 				F91FCC3628B2CA9400C0B07E /* ReusableViews */,
 				F91FCC2428B2BCC300C0B07E /* Helpers */,
 				F91FCC1B28B2B6C200C0B07E /* Extensions */,
@@ -447,6 +457,53 @@
 				F91FCC3728B2CAA200C0B07E /* CustomTextField.swift */,
 			);
 			path = ReusableViews;
+			sourceTree = "<group>";
+		};
+		F9C1AA6928C13FD400FC74AC /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		F9C2FFDF28BFF59800331EF6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F9C2FFE028BFF59D00331EF6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F9C2FFE428BFF7EB00331EF6 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2FFE628BFF80F00331EF6 /* Services */,
+				F9C2FFE528BFF80400331EF6 /* Model */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		F9C2FFE528BFF80400331EF6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2FFE728BFF82B00331EF6 /* Post.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F9C2FFE628BFF80F00331EF6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F9C2FFE928BFF83300331EF6 /* PostService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F9E245B028B8181C009420AE /* Model */ = {
@@ -639,6 +696,7 @@
 				F9E245B328B8184E009420AE /* RegisterCredentials.swift in Sources */,
 				F91FCC1728B2AFF900C0B07E /* FavoriteView.swift in Sources */,
 				F91FCC0828B2AE5400C0B07E /* TabRouter.swift in Sources */,
+				F9C1AA6B28C13FE100FC74AC /* FirebaseConstants.swift in Sources */,
 				F91FCC0D28B2AFBD00C0B07E /* HomeView.swift in Sources */,
 				F91FCC3A28B2CDFA00C0B07E /* LoginViewModel.swift in Sources */,
 				F9174D4B28B40B3B00762717 /* RegisterViewModel.swift in Sources */,
@@ -650,6 +708,8 @@
 				F91FCC2628B2BCE300C0B07E /* LazyView.swift in Sources */,
 				F90D729A28B8297900C7966B /* SessionUserDetails.swift in Sources */,
 				F9174D4928B4075900762717 /* Button+Extension.swift in Sources */,
+				F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */,
+				F9C2FFEA28BFF83300331EF6 /* PostService.swift in Sources */,
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,
 				F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */,
 				F9FAC30C28BD408B005FAF4F /* SettingsView.swift in Sources */,
