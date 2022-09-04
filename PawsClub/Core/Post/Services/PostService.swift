@@ -16,10 +16,12 @@ enum PostKeys: String {
 
 protocol PostService {
 	func fetchPosts() ->  AnyPublisher<[Post], Error>
-	func uploadPost(with post: Post, image: UIImage, user: SessionUserDetails) -> AnyPublisher<Void, Error>
+	func uploadPost(with post: Post, image: UIImage) -> AnyPublisher<Void, Error>
 }
 
 final class PostManager: PostService {
+	@ObservedObject var sessionService = SessionManager()
+	
 	func fetchPosts() -> AnyPublisher<[Post], Error> {
 		Deferred {
 			Future { promise in
@@ -36,10 +38,12 @@ final class PostManager: PostService {
 		.eraseToAnyPublisher()
 	}
 	
-	func uploadPost(with post: Post, image: UIImage, user: SessionUserDetails) -> AnyPublisher<Void, Error> {
+	func uploadPost(with post: Post, image: UIImage) -> AnyPublisher<Void, Error> {
 		Deferred {
 			Future { promise in
 				guard let imageData = image.jpegData(compressionQuality: 0.6) else {return}
+				guard let user = self.sessionService.userDetails else {return}
+				
 				let ref = UploadType.Post.filePath
 				ref.putData(imageData) { _, error in
 					if let error = error {

@@ -55,7 +55,7 @@ struct MainTabView: View {
 				ToolbarItem(placement: .navigationBarTrailing) {
 					if router.page == .home {
 						NavigationLink {
-//							PostAddView()
+							PostAddView()
 						} label: {
 							Image(systemName: "plus.app.fill")
 						}
