@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import MapKit
 
 enum PostState {
 	case successful

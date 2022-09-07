@@ -7,17 +7,21 @@
 
 import SwiftUI
 import Kingfisher
+import CoreLocationUI
 
 struct PostAddView: View {
 	@StateObject var viewModel = PostAddViewModel(service: PostManager(), breedService: BreedManager())
+	@StateObject var locationViewModel = LocationViewModel()
 	@Environment(\.dismiss) var dismiss
 	
-	@State private var isImagePickerPresented = false
+	@State private var isImagePickerPresented: Bool = false
+	@State private var isLocationViewPresented: Bool = false
 	@State private var selectedImage: UIImage = UIImage()
 	@State private var selectedKind: PET_KIND = .Other
 	@State private var selectedBreed: String = "Other"
 	@State private var selectedAge: PET_AGE = .baby
 	@State private var selectedGender: PET_GENDER = .female
+	@State private var selectedLocationName: String = ""
 	
 	
 	var body: some View {
@@ -66,10 +70,7 @@ struct PostAddView: View {
 						.padding(.top, 3)
 						.opacity(viewModel.post.about.isEmpty ? 1 : 0)
 				}
-			}
-			
-			Section {
-				Text(String(describing: checkIfValid))
+				
 				Picker("Kind", selection: $selectedKind) {
 					ForEach(PET_KIND.allCases) { kind in
 						Text(kind.rawValue.capitalized)
@@ -130,6 +131,19 @@ struct PostAddView: View {
 					viewModel.post.age = newValue
 				}
 				
+				HStack{
+					Text("Location")
+					Spacer()
+					Text(selectedLocationName)
+						.foregroundColor(Color.gray)
+					Image(systemName: "chevron.right")
+						.font(.subheadline)
+						.foregroundColor(Color.gray)
+				}
+				.onTapGesture {
+					isLocationViewPresented.toggle()
+				}
+				
 				Toggle("Health Checks", isOn: $viewModel.post.healthChecks)
 				
 				Toggle("Vaccinated", isOn: $viewModel.post.isVaccinated)
@@ -148,7 +162,7 @@ struct PostAddView: View {
 					dismiss()
 				} label: {
 					Text("Share")
-}
+				}
 				.disabled(checkIfValid)
 				
 			}
@@ -157,9 +171,18 @@ struct PostAddView: View {
 			viewModel.post.kind = selectedKind.rawValue.capitalized
 			viewModel.post.age = selectedAge.rawValue.capitalized
 			viewModel.post.gender = selectedGender.rawValue.capitalized
+			
+			print("ofofofo: \(locationViewModel.userLocationName)")
+			if let locationName = locationViewModel.userLocationName {
+				selectedLocationName = locationName
+				print("Lalalalal")
+			}
 		})
 		.sheet(isPresented: $isImagePickerPresented, onDismiss: loadImage) {
 			PhotoPicker(selectedImage: $selectedImage)
+		}
+		.sheet(isPresented: $isLocationViewPresented, onDismiss: selectLocation) {
+			LocationView(selectedLocation: $viewModel.post.coordinate, selectedLocationName: $selectedLocationName)
 		}
 	}
 	
@@ -175,6 +198,10 @@ struct PostAddView: View {
 	
 	private func loadImage() {
 		viewModel.image = selectedImage
+	}
+	
+	private func selectLocation() {
+		print(viewModel.post.coordinate)
 	}
 }
 
