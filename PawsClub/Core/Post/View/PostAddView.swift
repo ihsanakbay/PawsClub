@@ -172,10 +172,13 @@ struct PostAddView: View {
 			viewModel.post.age = selectedAge.rawValue.capitalized
 			viewModel.post.gender = selectedGender.rawValue.capitalized
 			
-			print("ofofofo: \(locationViewModel.userLocationName)")
 			if let locationName = locationViewModel.userLocationName {
 				selectedLocationName = locationName
-				print("Lalalalal")
+			}
+		})
+		.onChange(of: locationViewModel.userLocationName, perform: { newValue in
+			if let locationName = locationViewModel.userLocationName {
+				selectedLocationName = locationName
 			}
 		})
 		.sheet(isPresented: $isImagePickerPresented, onDismiss: loadImage) {
