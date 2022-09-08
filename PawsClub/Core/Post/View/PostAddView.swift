@@ -12,6 +12,7 @@ import CoreLocationUI
 struct PostAddView: View {
 	@StateObject var viewModel = PostAddViewModel(service: PostManager(), breedService: BreedManager())
 	@StateObject var locationViewModel = LocationViewModel()
+	
 	@Environment(\.dismiss) var dismiss
 	
 	@State private var isImagePickerPresented: Bool = false
@@ -180,6 +181,11 @@ struct PostAddView: View {
 			if let locationName = locationViewModel.userLocationName {
 				selectedLocationName = locationName
 			}
+		})
+		.onDisappear(perform: {
+			viewModel.clear()
+			locationViewModel.userLocationName = ""
+			selectedLocationName = ""
 		})
 		.sheet(isPresented: $isImagePickerPresented, onDismiss: loadImage) {
 			PhotoPicker(selectedImage: $selectedImage)

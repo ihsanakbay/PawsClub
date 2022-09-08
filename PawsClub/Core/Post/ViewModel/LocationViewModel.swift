@@ -118,7 +118,13 @@ final class LocationViewModel: NSObject, ObservableObject, MKMapViewDelegate, CL
 	func getLocationName(location: CLLocation, completion: @escaping((String)-> ())) {
 		CLGeocoder().reverseGeocodeLocation(location) { placemark, _ in
 			if let place = placemark?.first{
-				completion(place.locality!)
+				if let locality = place.locality {
+					completion(locality)
+				}
+				
+				if let name = place.name {
+					completion(name)
+				}
 			}
 		}
 	}

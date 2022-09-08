@@ -49,7 +49,7 @@ struct MainTabView: View {
 						} label: {
 							Image(systemName: "slider.horizontal.3")
 						}
-
+						
 					}
 				}
 				ToolbarItem(placement: .navigationBarTrailing) {
@@ -61,7 +61,7 @@ struct MainTabView: View {
 						}
 						.font(.system(size: 20))
 					}
-
+					
 					if router.page == .profile {
 						Button {
 							isSettingPresented.toggle()
@@ -74,9 +74,9 @@ struct MainTabView: View {
 			.sheet(isPresented: $isSettingPresented) {
 				SettingsView()
 			}
-//			.sheet(isPresented: $isFilterSheetOpen) {
-//				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
-//			}
+			//			.sheet(isPresented: $isFilterSheetOpen) {
+			//				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
+			//			}
 		}
 		.accentColor(Color.theme.pinkColor)
 	}
