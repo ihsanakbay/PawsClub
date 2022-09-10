@@ -54,23 +54,17 @@ final class SessionManager: SessionService {
 	}
 	
 	private func handleRefresh(with uid: String) {
-		Firestore
-			.firestore()
-			.collection("users")
-			.document(uid)
-			.addSnapshotListener { [weak self] snapshot, error in
-				guard let self = self,
-					  let data = snapshot?.data(),
-					  let email = data[SessionKeys.email.rawValue] as? String,
-					  let username = data[SessionKeys.username.rawValue] as? String,
-					  let fullname = data[SessionKeys.fullname.rawValue] as? String,
-					  let imageUrl = data[SessionKeys.imageUrl.rawValue] as? String
-				else {return}
-				
-				DispatchQueue.main.async {
-					self.userDetails = SessionUserDetails(id: uid, email: email, username: username, fullname: fullname, imageUrl: imageUrl)
-				}
+		COLLECTION_USERS.document(uid).addSnapshotListener { [weak self] snapshot, _ in
+			guard let self = self,
+				  let data = snapshot?.data(),
+				  let email = data[SessionKeys.email.rawValue] as? String,
+				  let username = data[SessionKeys.username.rawValue] as? String,
+				  let fullname = data[SessionKeys.fullname.rawValue] as? String,
+				  let imageUrl = data[SessionKeys.imageUrl.rawValue] as? String
+			else {return}
+			DispatchQueue.main.async {
+				self.userDetails = SessionUserDetails(id: uid, email: email, username: username, fullname: fullname, imageUrl: imageUrl)
 			}
-			.remove()
+		}
 	}
 }

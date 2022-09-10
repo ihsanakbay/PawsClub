@@ -10,7 +10,9 @@ import SwiftUI
 struct LocationView: View {
 	@StateObject var viewModel = LocationViewModel()
 	@Environment(\.dismiss) var dismiss
-	@Binding var selectedLocation: Coordinate
+//	@Binding var selectedLocation: Coordinate
+	@Binding var latitude: Double
+	@Binding var longitude: Double
 	@Binding var selectedLocationName: String
 	
 	
@@ -36,7 +38,9 @@ struct LocationView: View {
 						.onTapGesture {
 							if let coordinate = place.location?.coordinate {
 								selectedLocationName = place.name!
-								selectedLocation = Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//								selectedLocation = Coordinate(latitude: coordinate.latitude, longitude: coordinate.longitude)
+								latitude = coordinate.latitude
+								longitude = coordinate.longitude
 								dismiss()
 							}
 						}

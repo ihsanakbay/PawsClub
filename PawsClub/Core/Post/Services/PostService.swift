@@ -11,22 +11,29 @@ import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 enum PostKeys: String {
-	case name, about, kind, breed, age, gender, healthChecks, isVaccinated, isNeutered, coordinate, imageUrl, ownerUid, ownerUsername, timestamp, didLike
+	case name, about, kind, breed, age, gender, healthChecks, isVaccinated, isNeutered, latitude, longitude, imageUrl, ownerUid, ownerUsername, timestamp, didLike
 }
 
 protocol PostService {
 	func fetchPosts() ->  AnyPublisher<[Post], Error>
-	func uploadPost(with post: Post, image: UIImage) -> AnyPublisher<Void, Error>
+	func uploadPost(with post: Post, user: SessionUserDetails, image: UIImage) -> AnyPublisher<Void, Error>
 }
 
 final class PostManager: PostService {
-	@ObservedObject var sessionService = SessionManager()
 	
 	func fetchPosts() -> AnyPublisher<[Post], Error> {
 		Deferred {
-			Future { promise in
+			Future<[Post], Error> { promise in
 				COLLECTION_POSTS.order(by: "timestamp", descending: true).addSnapshotListener { snapshot, error in
-					guard let documents = snapshot?.documents else {return}
+					if let error = error {
+						promise(.failure(error))
+						return
+					}
+					
+					guard let documents = snapshot?.documents else {
+						promise(.failure(FirebaseError.basSnapshot))
+						return
+					}
 					let result = documents.compactMap { document in
 						try? document.data(as: Post.self)
 					}
@@ -38,18 +45,15 @@ final class PostManager: PostService {
 		.eraseToAnyPublisher()
 	}
 	
-	func uploadPost(with post: Post, image: UIImage) -> AnyPublisher<Void, Error> {
+	func uploadPost(with post: Post, user: SessionUserDetails, image: UIImage) -> AnyPublisher<Void, Error> {
 		Deferred {
-			Future { promise in
+			Future<Void, Error> { promise in
 				guard let imageData = image.jpegData(compressionQuality: 0.6) else {return}
-				guard let user = self.sessionService.userDetails else {return}
-				
 				let ref = UploadType.Post.filePath
 				ref.putData(imageData) { _, error in
 					if let error = error {
 						promise(.failure(error))
 					}
-					
 					ref.downloadURL { url, _ in
 						guard let url = url?.absoluteString else {return}
 						let data = [PostKeys.name.rawValue: post.name,
@@ -62,7 +66,9 @@ final class PostManager: PostService {
 									PostKeys.isVaccinated.rawValue: post.isVaccinated,
 									PostKeys.isNeutered.rawValue: post.isNeutered,
 									PostKeys.imageUrl.rawValue: url,
-									PostKeys.coordinate.rawValue: post.coordinate,
+//									PostKeys.coordinate.rawValue: post.coordinate,
+									PostKeys.latitude.rawValue: post.latitude,
+									PostKeys.longitude.rawValue: post.longitude,
 									PostKeys.ownerUid.rawValue: user.id,
 									PostKeys.ownerUsername.rawValue: user.username,
 									PostKeys.timestamp.rawValue: Timestamp(date: Date())

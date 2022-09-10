@@ -5,7 +5,7 @@
 //  Created by İhsan Akbay on 25.08.2022.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 import FirebaseAuth
 import FirebaseFirestoreSwift
@@ -19,40 +19,52 @@ enum RegistrationKeys: String {
 }
 
 protocol RegistrationService {
-	func register(with credentials: RegisterCredentials) -> AnyPublisher<Void, Error>
+	func register(with credentials: RegisterCredentials, image: UIImage) -> AnyPublisher<Void, Error>
 }
 
 final class RegistrationManager: RegistrationService {
-
-	func register(with credentials: RegisterCredentials) -> AnyPublisher<Void, Error> {
+	
+	func register(with credentials: RegisterCredentials, image: UIImage) -> AnyPublisher<Void, Error> {
 		Deferred {
 			Future { promise in
-				Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { result, error in
+				guard let imageData = image.jpegData(compressionQuality: 0.6) else {return}
+				let ref = UploadType.Profile.filePath
+				ref.putData(imageData) { _, error in
 					if let error = error {
 						promise(.failure(error))
-					} else {
-						if let uid = result?.user.uid {
-							let values = [
-								RegistrationKeys.email.rawValue: credentials.email,
-								RegistrationKeys.username.rawValue: credentials.username,
-								RegistrationKeys.fullname.rawValue: credentials.fullname
-							] as [String: Any]
-							
-							Firestore.firestore().collection("users").document(uid).setData(values) { error in
-								if let error = error {
-									promise(.failure(error))
+					}
+					
+					ref.downloadURL { url, _ in
+						guard let url = url?.absoluteString else {return}
+						Auth.auth().createUser(withEmail: credentials.email, password: credentials.password) { result, error in
+							if let error = error {
+								promise(.failure(error))
+							} else {
+								if let uid = result?.user.uid {
+									let values = [
+										RegistrationKeys.email.rawValue: credentials.email,
+										RegistrationKeys.username.rawValue: credentials.username,
+										RegistrationKeys.fullname.rawValue: credentials.fullname,
+										RegistrationKeys.imageUrl.rawValue: url
+									] as [String: Any]
+									
+									COLLECTION_USERS.document(uid).setData(values) { error in
+										if let error = error {
+											promise(.failure(error))
+										} else {
+											promise(.success(()))
+										}
+									}
 								} else {
-									promise(.success(()))
+									promise(.failure(NSError(domain: "Invalid user id", code: 0, userInfo: nil)))
 								}
 							}
-						} else {
-							promise(.failure(NSError(domain: "Invalid user id", code: 0, userInfo: nil)))
 						}
 					}
 				}
 			}
 		}
-			.receive(on: RunLoop.main)
-			.eraseToAnyPublisher()
+		.receive(on: RunLoop.main)
+		.eraseToAnyPublisher()
 	}
 }

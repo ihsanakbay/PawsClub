@@ -12,6 +12,7 @@ import CoreLocationUI
 struct PostAddView: View {
 	@StateObject var viewModel = PostAddViewModel(service: PostManager(), breedService: BreedManager())
 	@StateObject var locationViewModel = LocationViewModel()
+	@EnvironmentObject var session: SessionManager
 	
 	@Environment(\.dismiss) var dismiss
 	
@@ -159,8 +160,10 @@ struct PostAddView: View {
 		.toolbar {
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
-					viewModel.add()
-					dismiss()
+					if let user = session.userDetails {
+						viewModel.add(user: user)
+						dismiss()
+					}
 				} label: {
 					Text("Share")
 				}
@@ -190,8 +193,8 @@ struct PostAddView: View {
 		.sheet(isPresented: $isImagePickerPresented, onDismiss: loadImage) {
 			PhotoPicker(selectedImage: $selectedImage)
 		}
-		.sheet(isPresented: $isLocationViewPresented, onDismiss: selectLocation) {
-			LocationView(selectedLocation: $viewModel.post.coordinate, selectedLocationName: $selectedLocationName)
+		.sheet(isPresented: $isLocationViewPresented) {
+			LocationView(latitude: $viewModel.post.latitude, longitude: $viewModel.post.longitude, selectedLocationName: $selectedLocationName)
 		}
 	}
 	
@@ -209,9 +212,6 @@ struct PostAddView: View {
 		viewModel.image = selectedImage
 	}
 	
-	private func selectLocation() {
-		print(viewModel.post.coordinate)
-	}
 }
 
 struct PostAddView_Previews: PreviewProvider {

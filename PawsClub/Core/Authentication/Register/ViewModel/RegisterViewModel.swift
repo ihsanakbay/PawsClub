@@ -40,8 +40,9 @@ final class RegisterViewModel: RegisterViewModelProtocol {
 	}
 	
 	func register() {
+		let image = UIImage(named: "user")!
 		isLoading = true
-		service.register(with: userCredentials)
+		service.register(with: userCredentials, image: image)
 			.sink { [weak self] result in
 				switch result {
 				case .failure(let error):

@@ -12,7 +12,7 @@ import FirebaseCore
 struct PawsClubApp: App {
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-	@StateObject var sessionService = SessionManager()
+	@StateObject var session = SessionManager()
 	
 	init() {
 		fixiOS15AppearanceIssues()
@@ -20,10 +20,10 @@ struct PawsClubApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			switch sessionService.state {
+			switch session.state {
 			case .loggedIn:
 				MainTabView()
-					.environmentObject(sessionService)
+					.environmentObject(session)
 			case .loggedOut:
 				LoginView()
 			}

@@ -12,7 +12,7 @@ enum Page: String {
 }
 
 struct MainTabView: View {
-	@EnvironmentObject var sessionService: SessionManager
+	@EnvironmentObject var session: SessionManager
 	@StateObject var router = TabRouter()
 	@State private var isSettingPresented: Bool = false
 	@State private var isFilterSheetOpen: Bool = false
@@ -37,7 +37,6 @@ struct MainTabView: View {
 					.tabItem {
 						Label("Profile", systemImage: "person")
 					}
-					.environmentObject(sessionService)
 			}
 			.navigationBarTitleDisplayMode(.inline)
 			.navigationTitle(router.page.rawValue.capitalized)

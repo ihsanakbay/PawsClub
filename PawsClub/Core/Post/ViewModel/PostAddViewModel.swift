@@ -24,7 +24,7 @@ protocol PostAddViewModelProtocol: ObservableObject {
 	var isLoading: Bool { get }
 	var breedService: BreedService { get }
 	init(service: PostService, breedService: BreedService)
-	func add()
+	func add(user: SessionUserDetails)
 	func clear()
 	func fetchBreeds() async
 }
@@ -49,14 +49,13 @@ final class PostAddViewModel: PostAddViewModelProtocol {
 	}
 	
 	@MainActor
-	func add() {
+	func add(user: SessionUserDetails) {
 		isLoading = true
-		service
-			.uploadPost(with: post, image: image)
-			.sink { result in
+		service.uploadPost(with: post, user: user, image: image)
+			.sink { [weak self] result in
 				switch result {
 				case .failure(let error):
-					self.state = .failed(error: error)
+					self?.state = .failed(error: error)
 				default:
 					break
 				}
