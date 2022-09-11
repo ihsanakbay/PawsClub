@@ -80,7 +80,11 @@ struct HomeViewListCell: View {
 		}
 		.onAppear(perform: {
 			locationViewModel.getLocationName(location: CLLocation(latitude: post.latitude, longitude: post.longitude)) { location in
-				postLocation = location
+				if location.count > 20 {
+					postLocation = "\(location.prefix(20))..."
+				} else {
+					postLocation = location
+				}
 			}
 		})
 		.padding(.horizontal)
