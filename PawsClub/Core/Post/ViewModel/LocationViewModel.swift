@@ -22,6 +22,7 @@ final class LocationViewModel: NSObject, ObservableObject, MKMapViewDelegate, CL
 
 	@Published var pickedLocation: CLLocation?
 	@Published var pickedPlacemark: CLPlacemark?
+	
 
 	var cancellable: AnyCancellable?
 	
@@ -118,13 +119,8 @@ final class LocationViewModel: NSObject, ObservableObject, MKMapViewDelegate, CL
 	func getLocationName(location: CLLocation, completion: @escaping((String)-> ())) {
 		CLGeocoder().reverseGeocodeLocation(location) { placemark, _ in
 			if let place = placemark?.first{
-				if let locality = place.locality {
-					completion(locality)
-				}
-				
-				if let name = place.name {
-					completion(name)
-				}
+				let locationName = "\(place.locality ?? "")\(place.locality != nil ? ", " : "")\(place.country ?? "")"
+				completion(locationName)
 			}
 		}
 	}

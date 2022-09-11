@@ -7,8 +7,12 @@
 
 import SwiftUI
 import Kingfisher
+import CoreLocation
 
 struct HomeViewListCell: View {
+	@StateObject var locationViewModel = LocationViewModel()
+	@State private var postLocation: String?
+	
 	let screenSize = UIScreen.main.bounds
 	var post: Post
 	
@@ -61,8 +65,11 @@ struct HomeViewListCell: View {
 					HStack(alignment: .center, spacing: 2) {
 						Image(systemName: "location.fill")
 							.foregroundColor(Color.theme.pinkColor)
-						Text("place")
+						Text(postLocation ?? "N/A")
+							.minimumScaleFactor(0.7)
+						Spacer()
 					}
+					.frame(maxWidth: .infinity)
 				}
 				.font(.system(size: 14))
 				.padding()
@@ -71,6 +78,11 @@ struct HomeViewListCell: View {
 			}
 			.frame(height: 120)
 		}
+		.onAppear(perform: {
+			locationViewModel.getLocationName(location: CLLocation(latitude: post.latitude, longitude: post.longitude)) { location in
+				postLocation = location
+			}
+		})
 		.padding(.horizontal)
 		.padding(.vertical, 8)
 	}

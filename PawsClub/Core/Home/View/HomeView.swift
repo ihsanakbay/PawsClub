@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
 	@StateObject var viewModel = HomeViewModel(service: PostManager())
+	@StateObject var locationViewModel = LocationViewModel()
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {

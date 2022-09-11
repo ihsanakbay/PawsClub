@@ -15,7 +15,7 @@ struct PawsClubApp: App {
 	@StateObject var session = SessionManager()
 	
 	init() {
-		fixiOS15AppearanceIssues()
+//		fixiOS15AppearanceIssues()
 	}
 	
 	var body: some Scene {
