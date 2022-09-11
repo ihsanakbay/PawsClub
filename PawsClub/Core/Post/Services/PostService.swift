@@ -56,8 +56,6 @@ final class PostManager: PostService {
 						
 						return Post(id: id, name: name, about: about, kind: kind, breed: breed, age: age, gender: gender, healthChecks: healthChecks, isVaccinated: isVaccinated, isNeutered: isNeutered, latitude: latitude, longitude: longitude, imageUrl: imageUrl, ownerUid: ownerUid, ownerUsername: ownerUsername, timestamp: timestamp)
 					}
-					
-					print("DEBUG: \(posts)")
 					promise(.success(posts))
 				}
 			}

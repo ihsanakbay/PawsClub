@@ -15,7 +15,7 @@ struct HomeView: View {
 			LazyVStack {
 				ForEach(viewModel.posts, id: \.id) { post in
 					NavigationLink {
-//						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, ownerUid: post.ownerUid)))
+						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, ownerUid: post.ownerUid)))
 					} label: {
 						HomeViewListCell(post: post)
 					}

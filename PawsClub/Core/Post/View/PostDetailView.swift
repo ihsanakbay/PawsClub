@@ -10,9 +10,15 @@ import Kingfisher
 
 struct PostDetailView: View {
 	@Environment(\.dismiss) var dismiss
-	@StateObject var viewModel: PostDetailViewModel
+	@ObservedObject var viewModel: PostDetailViewModel
+	@EnvironmentObject var session: SessionManager
+	
 	@State private var isShowingConfirmation: Bool = false
-	private var didLike: Bool { return viewModel.post.didLike ?? false }
+	private var didLike: Bool { return viewModel.post.didLike }
+	
+	init(viewModel: PostDetailViewModel) {
+		self.viewModel = viewModel
+	}
 	
     var body: some View {
 		ZStack {
@@ -28,7 +34,7 @@ struct PostDetailView: View {
 
 							Spacer()
 
-							if (viewModel.post.ownerUid == SessionService.shared.userDetails?.id) {
+							if (viewModel.post.ownerUid == session.userDetails?.id) {
 								toolbarEditButton
 							}
 
@@ -59,7 +65,7 @@ struct PostDetailView: View {
 extension PostDetailView {
 	private var imageSection: some View {
 		TabView {
-			KFImage(URL(string: viewModel.post.postImageUrl))
+			KFImage(URL(string: viewModel.post.imageUrl))
 				.resizable()
 				.scaledToFill()
 				.frame(width: screenSize.width)
@@ -85,7 +91,9 @@ extension PostDetailView {
 				Spacer()
 
 				Button {
-					didLike ? viewModel.unlike() : viewModel.like()
+					if let user = session.userDetails {
+						didLike ? viewModel.unlike() : viewModel.like()
+					}
 				} label: {
 					Image(systemName: didLike ? "heart.fill" : "heart")
 				}
@@ -99,7 +107,7 @@ extension PostDetailView {
 					.font(.body)
 					.foregroundColor(Color.theme.text)
 
-				Text(viewModel.post.place)
+				Text("place")
 					.font(.body)
 					.foregroundColor(Color.theme.text)
 			}
@@ -145,7 +153,7 @@ extension PostDetailView {
 				.font(.headline)
 
 			NavigationLink {
-				LazyView(ProfileView(uid: viewModel.post.ownerUid))
+//				LazyView(ProfileView(uid: viewModel.post.ownerUid))
 			} label: {
 				VStack(alignment: .leading, spacing: 4) {
 					Label(viewModel.post.ownerUsername, systemImage: "person.circle.fill")
@@ -209,6 +217,6 @@ extension View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView()
+		PostDetailView(viewModel: PostDetailViewModel(post: Post.new, ownerUid: ""))
     }
 }

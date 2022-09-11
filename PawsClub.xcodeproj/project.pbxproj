@@ -11,6 +11,7 @@
 		F90D729D28B829DF00C7966B /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D729C28B829DF00C7966B /* SessionService.swift */; };
 		F90F7E5328CDEB8800C2C6D4 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */; };
 		F90F7E5528CDEC0900C2C6D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */; };
+		F90F7E5728CDFA0F00C2C6D4 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5628CDFA0F00C2C6D4 /* General.swift */; };
 		F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */; };
 		F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4428B3F8DD00762717 /* RegisterView.swift */; };
 		F9174D4928B4075900762717 /* Button+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4828B4075900762717 /* Button+Extension.swift */; };
@@ -85,6 +86,7 @@
 		F90D729C28B829DF00C7966B /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
 		F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
+		F90F7E5628CDFA0F00C2C6D4 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
 		F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		F9174D4428B3F8DD00762717 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F9174D4828B4075900762717 /* Button+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extension.swift"; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 			children = (
 				F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */,
 				F9A1858C28C3BCDD008F242C /* PickerData.swift */,
+				F90F7E5628CDFA0F00C2C6D4 /* General.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,
 				F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */,
 				F9FAC30C28BD408B005FAF4F /* SettingsView.swift in Sources */,
+				F90F7E5728CDFA0F00C2C6D4 /* General.swift in Sources */,
 				F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */,
 				F95345EE28CD4D2B0080B83E /* ServiceState.swift in Sources */,
 				F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */,
