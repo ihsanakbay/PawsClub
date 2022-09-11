@@ -5,19 +5,13 @@
 //  Created by İhsan Akbay on 2.09.2022.
 //
 
-import SwiftUI
+import SwiftUI 
 import Combine
 import MapKit
 
-enum PostState {
-	case successful
-	case failed(error: Error)
-	case na
-}
-
 protocol PostAddViewModelProtocol: ObservableObject {
 	var service: PostService { get }
-	var state: PostState { get }
+	var state: ServiceState { get }
 	var post: Post { get }
 	var image: UIImage { get }
 	var hasError: Bool { get }
@@ -30,7 +24,7 @@ protocol PostAddViewModelProtocol: ObservableObject {
 }
 
 final class PostAddViewModel: PostAddViewModelProtocol {
-	@Published var state: PostState = .na
+	@Published var state: ServiceState = .na
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
 	@Published var image: UIImage = UIImage()

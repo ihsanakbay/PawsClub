@@ -8,29 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
+	@StateObject var viewModel = HomeViewModel(service: PostManager())
 	
-    var body: some View {
+	var body: some View {
 		ScrollView(showsIndicators: false) {
 			LazyVStack {
-//				ForEach(viewModel.posts, id: \.id) { post in
-//					NavigationLink {
+				ForEach(viewModel.posts, id: \.id) { post in
+					NavigationLink {
 //						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, ownerUid: post.ownerUid)))
-//					} label: {
-//						HomeCell(post: post, place: "")
-//					}
-//				}
+					} label: {
+						HomeViewListCell(post: post)
+					}
+				}
 			}
 		}
-//		.onAppear {
-//			Task {
-//				await viewModel.fetchPosts()
-//			}
-//		}
-    }
+		.task {
+			await viewModel.fetchPosts()
+		}
+	}
 }
 
 struct HomeView_Previews: PreviewProvider {
-    static var previews: some View {
-        HomeView()
-    }
+	static var previews: some View {
+		HomeView()
+	}
 }

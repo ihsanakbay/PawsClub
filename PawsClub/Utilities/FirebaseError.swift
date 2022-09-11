@@ -8,5 +8,6 @@
 import Foundation
 
 enum FirebaseError: Error {
-	case basSnapshot
+	case badSnapshot
+	case notExist
 }

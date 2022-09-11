@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		F90D729A28B8297900C7966B /* SessionUserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D729928B8297900C7966B /* SessionUserDetails.swift */; };
 		F90D729D28B829DF00C7966B /* SessionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90D729C28B829DF00C7966B /* SessionService.swift */; };
+		F90F7E5328CDEB8800C2C6D4 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */; };
+		F90F7E5528CDEC0900C2C6D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */; };
 		F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */; };
 		F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4428B3F8DD00762717 /* RegisterView.swift */; };
 		F9174D4928B4075900762717 /* Button+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4828B4075900762717 /* Button+Extension.swift */; };
@@ -40,6 +42,8 @@
 		F91FCC4128B2CE6800C0B07E /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4028B2CE6800C0B07E /* FirebaseFirestoreSwift */; };
 		F91FCC4328B2CE6800C0B07E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4228B2CE6800C0B07E /* FirebaseStorage */; };
 		F95345E828CCFE970080B83E /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95345E728CCFE970080B83E /* FirebaseError.swift */; };
+		F95345EA28CD4CD90080B83E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95345E928CD4CD90080B83E /* HomeViewModel.swift */; };
+		F95345EE28CD4D2B0080B83E /* ServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95345ED28CD4D2B0080B83E /* ServiceState.swift */; };
 		F95779B928C53D8C0014DC33 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95779B828C53D8C0014DC33 /* LocationViewModel.swift */; };
 		F95779BB28C53E780014DC33 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95779BA28C53E780014DC33 /* LocationView.swift */; };
 		F961270628C299F1004086DA /* PostAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F961270528C299F1004086DA /* PostAddView.swift */; };
@@ -79,6 +83,8 @@
 /* Begin PBXFileReference section */
 		F90D729928B8297900C7966B /* SessionUserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionUserDetails.swift; sourceTree = "<group>"; };
 		F90D729C28B829DF00C7966B /* SessionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionService.swift; sourceTree = "<group>"; };
+		F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
+		F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		F9174D4428B3F8DD00762717 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F9174D4828B4075900762717 /* Button+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extension.swift"; sourceTree = "<group>"; };
@@ -108,6 +114,8 @@
 		F91FCC3728B2CAA200C0B07E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		F91FCC3928B2CDFA00C0B07E /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		F95345E728CCFE970080B83E /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
+		F95345E928CD4CD90080B83E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		F95345ED28CD4D2B0080B83E /* ServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceState.swift; sourceTree = "<group>"; };
 		F95779B828C53D8C0014DC33 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
 		F95779BA28C53E780014DC33 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		F961270528C299F1004086DA /* PostAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddView.swift; sourceTree = "<group>"; };
@@ -297,6 +305,7 @@
 		F91FCC0B28B2AFA900C0B07E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F95345E928CD4CD90080B83E /* HomeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -377,6 +386,7 @@
 			children = (
 				F91FCC2528B2BCE300C0B07E /* LazyView.swift */,
 				F9E996DD28C3E6C400D67478 /* PhotoPicker.swift */,
+				F95345ED28CD4D2B0080B83E /* ServiceState.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -484,6 +494,7 @@
 			isa = PBXGroup;
 			children = (
 				F961270528C299F1004086DA /* PostAddView.swift */,
+				F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */,
 				F95779BA28C53E780014DC33 /* LocationView.swift */,
 			);
 			path = View;
@@ -493,6 +504,7 @@
 			isa = PBXGroup;
 			children = (
 				F961270728C29FD8004086DA /* PostAddViewModel.swift */,
+				F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */,
 				F95779B828C53D8C0014DC33 /* LocationViewModel.swift */,
 			);
 			path = ViewModel;
@@ -758,6 +770,8 @@
 				F95345E828CCFE970080B83E /* FirebaseError.swift in Sources */,
 				F9FAC30428BD27F4005FAF4F /* LoginCredentials.swift in Sources */,
 				F91FCC3828B2CAA200C0B07E /* CustomTextField.swift in Sources */,
+				F95345EA28CD4CD90080B83E /* HomeViewModel.swift in Sources */,
+				F90F7E5528CDEC0900C2C6D4 /* PostDetailViewModel.swift in Sources */,
 				F91FCBD828B2A3E700C0B07E /* ContentView.swift in Sources */,
 				F91FCBD628B2A3E700C0B07E /* PawsClubApp.swift in Sources */,
 				F90D729D28B829DF00C7966B /* SessionService.swift in Sources */,
@@ -788,10 +802,12 @@
 				F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */,
 				F9FAC30C28BD408B005FAF4F /* SettingsView.swift in Sources */,
 				F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */,
+				F95345EE28CD4D2B0080B83E /* ServiceState.swift in Sources */,
 				F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */,
 				F961270628C299F1004086DA /* PostAddView.swift in Sources */,
 				F9FAC30728BD2886005FAF4F /* LoginService.swift in Sources */,
 				F9174D4D28B40B4900762717 /* ForgotPasswordViewModel.swift in Sources */,
+				F90F7E5328CDEB8800C2C6D4 /* PostDetailView.swift in Sources */,
 				F9A1858B28C38A54008F242C /* BreedService.swift in Sources */,
 				F91FCC2328B2BA9800C0B07E /* HomeViewListCell.swift in Sources */,
 			);
