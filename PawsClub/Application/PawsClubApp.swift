@@ -14,10 +14,6 @@ struct PawsClubApp: App {
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 	@StateObject var session = SessionManager()
 	
-	init() {
-//		fixiOS15AppearanceIssues()
-	}
-	
 	var body: some Scene {
 		WindowGroup {
 			switch session.state {

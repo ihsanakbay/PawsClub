@@ -7,42 +7,43 @@
 
 import SwiftUI
 
-enum Page: String {
+enum Tab: String {
 	case home, favorites, profile
 }
 
 struct MainTabView: View {
 	@EnvironmentObject var session: SessionManager
-	@StateObject var router = TabRouter()
+	@State private var selectedTab: Tab = .home
 	@State private var isSettingPresented: Bool = false
 	@State private var isFilterSheetOpen: Bool = false
+	@State private var isPostAddViewPresented: Bool = false
 	
 	var body: some View {
 		NavigationView {
-			TabView(selection: $router.page) {
+			TabView(selection: $selectedTab) {
 				HomeView()
-					.tag(Page.home)
+					.tag(Tab.home)
 					.tabItem {
 						Label("Home", systemImage: "house")
 					}
 				
-				LazyView(FavoriteView())
-					.tag(Page.favorites)
+				LazyView(FavoritesView())
+					.tag(Tab.favorites)
 					.tabItem {
 						Label("Favorite", systemImage: "heart")
 					}
 				
 				LazyView(ProfileView())
-					.tag(Page.profile)
+					.tag(Tab.profile)
 					.tabItem {
 						Label("Profile", systemImage: "person")
 					}
 			}
 			.navigationBarTitleDisplayMode(.inline)
-			.navigationTitle(router.page.rawValue.capitalized)
+			.navigationTitle(selectedTab.rawValue.capitalized)
 			.toolbar {
 				ToolbarItem(placement: .navigationBarLeading) {
-					if router.page == .home {
+					if selectedTab == .home {
 						Button {
 							isFilterSheetOpen.toggle()
 						} label: {
@@ -52,16 +53,16 @@ struct MainTabView: View {
 					}
 				}
 				ToolbarItem(placement: .navigationBarTrailing) {
-					if router.page == .home {
-						NavigationLink {
-							PostAddView()
+					if selectedTab == .home {
+						Button {
+							isPostAddViewPresented.toggle()
 						} label: {
 							Image(systemName: "plus.app.fill")
 						}
 						.font(.system(size: 20))
 					}
 					
-					if router.page == .profile {
+					if selectedTab == .profile {
 						Button {
 							isSettingPresented.toggle()
 						} label: {
@@ -70,12 +71,17 @@ struct MainTabView: View {
 					}
 				}
 			}
+			.sheet(isPresented: $isPostAddViewPresented, content: {
+				NavigationView {
+					LazyView(PostAddView())
+				}
+			})
 			.sheet(isPresented: $isSettingPresented) {
-				SettingsView()
+				LazyView(SettingsView())
 			}
-			//			.sheet(isPresented: $isFilterSheetOpen) {
-			//				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
-			//			}
+			.sheet(isPresented: $isFilterSheetOpen) {
+//				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
+			}
 		}
 		.accentColor(Color.theme.pinkColor)
 	}
@@ -84,5 +90,7 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
 	static var previews: some View {
 		MainTabView()
+			.environmentObject(SessionManager())
 	}
 }
+

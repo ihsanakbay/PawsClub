@@ -21,25 +21,15 @@ struct Post: Identifiable, Codable {
 	var healthChecks: Bool
 	var isVaccinated: Bool
 	var isNeutered: Bool
-//	var coordinate: Coordinate
 	var latitude: Double
 	var longitude: Double
 	var imageUrl: String
 	var ownerUid: String
 	var ownerUsername: String
 	var timestamp: Timestamp
-	var didLike: Bool = false
+	var didLike: Bool?
 }
 
-struct Coordinate: Codable {
-	let latitude: Double
-	let longitude: Double
-
-	
-	//	func locationCoordinate() -> CLLocationCoordinate2D {
-	//		return CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
-	//	}
-}
 
 extension Post {
 	static var new: Post {
@@ -52,7 +42,6 @@ extension Post {
 			 healthChecks: false,
 			 isVaccinated: false,
 			 isNeutered: false,
-//			 coordinate: Coordinate(latitude: 0.0, longitude: 0.0),
 			 latitude: 0.0,
 			 longitude: 0.0,
 			 imageUrl: "",

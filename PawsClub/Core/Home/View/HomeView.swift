@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-	@StateObject var viewModel = HomeViewModel(service: PostManager())
+	@ObservedObject var viewModel = HomeViewModel(service: PostManager())
 	@StateObject var locationViewModel = LocationViewModel()
 	
 	var body: some View {
@@ -23,11 +23,13 @@ struct HomeView: View {
 				}
 			}
 		}
-		.task {
-			await viewModel.fetchPosts()
+		.onAppear() {
+			viewModel.subscribe()
+			print("Home: \(viewModel.posts)")
 		}
 	}
 }
+
 
 struct HomeView_Previews: PreviewProvider {
 	static var previews: some View {

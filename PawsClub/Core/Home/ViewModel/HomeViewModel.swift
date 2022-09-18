@@ -6,22 +6,9 @@
 //
 
 import SwiftUI
-import Combine
 import MapKit
 
-protocol HomeViewModelProtocol: ObservableObject {
-	var service: PostService { get }
-	var state: ServiceState { get }
-	var posts: [Post] { get }
-	var image: UIImage { get }
-	var hasError: Bool { get }
-	var isLoading: Bool { get }
-	init(service: PostService)
-	
-	func fetchPosts() async
-}
-
-final class HomeViewModel: HomeViewModelProtocol {
+final class HomeViewModel: ObservableObject {
 	@Published var state: ServiceState = .na
 	@Published var posts: [Post] = []
 	@Published var image: UIImage = UIImage()
@@ -30,48 +17,24 @@ final class HomeViewModel: HomeViewModelProtocol {
 	
 	var service: PostService
 	
-	private var subscriptions = Set<AnyCancellable>()
-	
 	init(service: PostService) {
 		self.service = service
-		setupErrorSubscription()
-		Task {
-			await fetchPosts()
-		}
+		self.subscribe()
 	}
 	
-	@MainActor
-	func fetchPosts() async {
+	func subscribe() {
 		isLoading = true
-		service.fetchPosts()
-			.sink { [weak self] result in
-				switch result {
-				case .failure(let error):
-					self?.state = .failed(error: error)
-				default:
-					break
-				}
-			} receiveValue: { posts in
+		service.fetchPosts { result in
+			switch result {
+			case .success(let posts):
 				self.posts = posts
 				self.state = .successful
+			case .failure(let err):
+				self.state = .failed(error: err)
+				self.hasError = true
 			}
-			.store(in: &subscriptions)
+		}
 		isLoading = false
 	}
 	
-}
-
-private extension HomeViewModel {
-	func setupErrorSubscription() {
-		$state
-			.map { state -> Bool in
-				switch state {
-				case .successful, .na:
-					return false
-				case .failed:
-					return true
-				}
-			}
-			.assign(to: &$hasError)
-	}
 }

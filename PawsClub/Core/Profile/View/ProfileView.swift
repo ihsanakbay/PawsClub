@@ -10,7 +10,9 @@ import SwiftUI
 struct ProfileView: View {
 	@State private var isSettingViewPresented: Bool = false
 	
-	
+	init() {
+		print("init profile")
+	}
     var body: some View {
 		ScrollView(showsIndicators: false) {
 			

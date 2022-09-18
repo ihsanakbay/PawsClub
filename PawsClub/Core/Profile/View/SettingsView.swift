@@ -10,7 +10,9 @@ import SwiftUI
 struct SettingsView: View {
 	@Environment(\.dismiss) var dismiss
 	@EnvironmentObject var sessionService: SessionManager
-	
+	init() {
+		print("init setting")
+	}
 	var body: some View {
 		NavigationView(content: {
 			List {

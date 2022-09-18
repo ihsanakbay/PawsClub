@@ -157,7 +157,17 @@ struct PostAddView: View {
 			await viewModel.fetchBreeds()
 		}
 		.navigationTitle("Create New Post")
+		.navigationBarTitleDisplayMode(.inline)
 		.toolbar {
+			ToolbarItem(placement: .navigationBarLeading) {
+				Button {
+					viewModel.clear()
+					dismiss()
+				} label: {
+					Text("Cancel")
+				}
+				.foregroundColor(.red)
+			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
 					if let user = session.userDetails {
@@ -175,7 +185,6 @@ struct PostAddView: View {
 			viewModel.post.kind = selectedKind.rawValue.capitalized
 			viewModel.post.age = selectedAge.rawValue.capitalized
 			viewModel.post.gender = selectedGender.rawValue.capitalized
-			
 			if let locationName = locationViewModel.userLocationName {
 				selectedLocationName = locationName
 			}

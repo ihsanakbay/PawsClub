@@ -12,13 +12,13 @@
 		F90F7E5328CDEB8800C2C6D4 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */; };
 		F90F7E5528CDEC0900C2C6D4 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */; };
 		F90F7E5728CDFA0F00C2C6D4 /* General.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5628CDFA0F00C2C6D4 /* General.swift */; };
+		F90F7E5C28CE7C3B00C2C6D4 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F90F7E5B28CE7C3B00C2C6D4 /* FavoritesViewModel.swift */; };
 		F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */; };
 		F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4428B3F8DD00762717 /* RegisterView.swift */; };
 		F9174D4928B4075900762717 /* Button+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4828B4075900762717 /* Button+Extension.swift */; };
 		F9174D4B28B40B3B00762717 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4A28B40B3B00762717 /* RegisterViewModel.swift */; };
 		F9174D4D28B40B4900762717 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9174D4C28B40B4900762717 /* ForgotPasswordViewModel.swift */; };
 		F91FCBD628B2A3E700C0B07E /* PawsClubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCBD528B2A3E700C0B07E /* PawsClubApp.swift */; };
-		F91FCBD828B2A3E700C0B07E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCBD728B2A3E700C0B07E /* ContentView.swift */; };
 		F91FCBDA28B2A3E700C0B07E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F91FCBD928B2A3E700C0B07E /* Assets.xcassets */; };
 		F91FCBDD28B2A3E700C0B07E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F91FCBDC28B2A3E700C0B07E /* Preview Assets.xcassets */; };
 		F91FCBE728B2A3E700C0B07E /* PawsClubTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCBE628B2A3E700C0B07E /* PawsClubTests.swift */; };
@@ -26,10 +26,9 @@
 		F91FCBF328B2A3E700C0B07E /* PawsClubUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCBF228B2A3E700C0B07E /* PawsClubUITestsLaunchTests.swift */; };
 		F91FCC0028B2A44400C0B07E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F91FCBFF28B2A44400C0B07E /* GoogleService-Info.plist */; };
 		F91FCC0628B2AE0A00C0B07E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC0528B2AE0A00C0B07E /* MainTabView.swift */; };
-		F91FCC0828B2AE5400C0B07E /* TabRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC0728B2AE5400C0B07E /* TabRouter.swift */; };
 		F91FCC0D28B2AFBD00C0B07E /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC0C28B2AFBD00C0B07E /* HomeView.swift */; };
 		F91FCC1228B2AFE000C0B07E /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC1128B2AFE000C0B07E /* ProfileView.swift */; };
-		F91FCC1728B2AFF900C0B07E /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC1628B2AFF900C0B07E /* FavoriteView.swift */; };
+		F91FCC1728B2AFF900C0B07E /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC1628B2AFF900C0B07E /* FavoritesView.swift */; };
 		F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC1C28B2B6DC00C0B07E /* Color+Extension.swift */; };
 		F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC1E28B2B8F000C0B07E /* View+Extension.swift */; };
 		F91FCC2328B2BA9800C0B07E /* HomeViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F91FCC2228B2BA9800C0B07E /* HomeViewListCell.swift */; };
@@ -87,6 +86,7 @@
 		F90F7E5228CDEB8800C2C6D4 /* PostDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailView.swift; sourceTree = "<group>"; };
 		F90F7E5428CDEC0900C2C6D4 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		F90F7E5628CDFA0F00C2C6D4 /* General.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = General.swift; sourceTree = "<group>"; };
+		F90F7E5B28CE7C3B00C2C6D4 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		F9174D4228B3F6DE00762717 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		F9174D4428B3F8DD00762717 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F9174D4828B4075900762717 /* Button+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Button+Extension.swift"; sourceTree = "<group>"; };
@@ -94,7 +94,6 @@
 		F9174D4C28B40B4900762717 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
 		F91FCBD228B2A3E700C0B07E /* PawsClub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PawsClub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91FCBD528B2A3E700C0B07E /* PawsClubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PawsClubApp.swift; sourceTree = "<group>"; };
-		F91FCBD728B2A3E700C0B07E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F91FCBD928B2A3E700C0B07E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F91FCBDC28B2A3E700C0B07E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F91FCBE228B2A3E700C0B07E /* PawsClubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PawsClubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -104,10 +103,9 @@
 		F91FCBF228B2A3E700C0B07E /* PawsClubUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PawsClubUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		F91FCBFF28B2A44400C0B07E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F91FCC0528B2AE0A00C0B07E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		F91FCC0728B2AE5400C0B07E /* TabRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabRouter.swift; sourceTree = "<group>"; };
 		F91FCC0C28B2AFBD00C0B07E /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F91FCC1128B2AFE000C0B07E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
-		F91FCC1628B2AFF900C0B07E /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
+		F91FCC1628B2AFF900C0B07E /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
 		F91FCC1C28B2B6DC00C0B07E /* Color+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extension.swift"; sourceTree = "<group>"; };
 		F91FCC1E28B2B8F000C0B07E /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
 		F91FCC2228B2BA9800C0B07E /* HomeViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewListCell.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				F91FCBD528B2A3E700C0B07E /* PawsClubApp.swift */,
-				F91FCBD728B2A3E700C0B07E /* ContentView.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -279,7 +276,6 @@
 			isa = PBXGroup;
 			children = (
 				F91FCC0528B2AE0A00C0B07E /* MainTabView.swift */,
-				F91FCC0728B2AE5400C0B07E /* TabRouter.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -349,7 +345,7 @@
 		F91FCC1428B2AFEA00C0B07E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F91FCC1628B2AFF900C0B07E /* FavoriteView.swift */,
+				F91FCC1628B2AFF900C0B07E /* FavoritesView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -357,6 +353,7 @@
 		F91FCC1528B2AFEF00C0B07E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F90F7E5B28CE7C3B00C2C6D4 /* FavoritesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -775,12 +772,10 @@
 				F91FCC3828B2CAA200C0B07E /* CustomTextField.swift in Sources */,
 				F95345EA28CD4CD90080B83E /* HomeViewModel.swift in Sources */,
 				F90F7E5528CDEC0900C2C6D4 /* PostDetailViewModel.swift in Sources */,
-				F91FCBD828B2A3E700C0B07E /* ContentView.swift in Sources */,
 				F91FCBD628B2A3E700C0B07E /* PawsClubApp.swift in Sources */,
 				F90D729D28B829DF00C7966B /* SessionService.swift in Sources */,
 				F9E245B328B8184E009420AE /* RegisterCredentials.swift in Sources */,
-				F91FCC1728B2AFF900C0B07E /* FavoriteView.swift in Sources */,
-				F91FCC0828B2AE5400C0B07E /* TabRouter.swift in Sources */,
+				F91FCC1728B2AFF900C0B07E /* FavoritesView.swift in Sources */,
 				F9C1AA6B28C13FE100FC74AC /* FirebaseConstants.swift in Sources */,
 				F91FCC0D28B2AFBD00C0B07E /* HomeView.swift in Sources */,
 				F91FCC3A28B2CDFA00C0B07E /* LoginViewModel.swift in Sources */,
@@ -800,6 +795,7 @@
 				F9174D4928B4075900762717 /* Button+Extension.swift in Sources */,
 				F9A1858828C38A2A008F242C /* Breed.swift in Sources */,
 				F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */,
+				F90F7E5C28CE7C3B00C2C6D4 /* FavoritesViewModel.swift in Sources */,
 				F9C2FFEA28BFF83300331EF6 /* PostService.swift in Sources */,
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,
 				F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */,

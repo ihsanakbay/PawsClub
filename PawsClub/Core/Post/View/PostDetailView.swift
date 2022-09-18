@@ -18,7 +18,7 @@ struct PostDetailView: View {
 	@State private var postLocation: String?
 	
 	@State private var isShowingConfirmation: Bool = false
-	private var didLike: Bool { return viewModel.post.didLike }
+	private var didLike: Bool { return viewModel.post.didLike ?? false }
 	
 	init(viewModel: PostDetailViewModel) {
 		self.viewModel = viewModel

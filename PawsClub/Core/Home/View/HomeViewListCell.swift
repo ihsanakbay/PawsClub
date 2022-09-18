@@ -10,11 +10,17 @@ import Kingfisher
 import CoreLocation
 
 struct HomeViewListCell: View {
-	@StateObject var locationViewModel = LocationViewModel()
 	@State private var postLocation: String?
 	
 	let screenSize = UIScreen.main.bounds
 	var post: Post
+	
+	var timestampString: String {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .long
+		formatter.timeStyle = .none
+		return formatter.string(from: post.timestamp.dateValue())
+	}
 	
 	var body: some View {
 		ZStack {
@@ -61,15 +67,8 @@ struct HomeViewListCell: View {
 					}
 
 					Text(post.breed)
-
-					HStack(alignment: .center, spacing: 2) {
-						Image(systemName: "location.fill")
-							.foregroundColor(Color.theme.pinkColor)
-						Text(postLocation ?? "N/A")
-							.minimumScaleFactor(0.7)
-						Spacer()
-					}
-					.frame(maxWidth: .infinity)
+					Text(timestampString)
+						.foregroundColor(Color.theme.textSecondary)
 				}
 				.font(.system(size: 14))
 				.padding()
@@ -78,15 +77,6 @@ struct HomeViewListCell: View {
 			}
 			.frame(height: 120)
 		}
-		.onAppear(perform: {
-			locationViewModel.getLocationName(location: CLLocation(latitude: post.latitude, longitude: post.longitude)) { location in
-				if location.count > 20 {
-					postLocation = "\(location.prefix(20))..."
-				} else {
-					postLocation = location
-				}
-			}
-		})
 		.padding(.horizontal)
 		.padding(.vertical, 8)
 	}

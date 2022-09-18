@@ -5,8 +5,7 @@
 //  Created by İhsan Akbay on 2.09.2022.
 //
 
-import SwiftUI 
-import Combine
+import SwiftUI
 import MapKit
 
 protocol PostAddViewModelProtocol: ObservableObject {
@@ -34,29 +33,25 @@ final class PostAddViewModel: PostAddViewModelProtocol {
 	var service: PostService
 	var breedService: BreedService
 	
-	private var subscriptions = Set<AnyCancellable>()
-	
 	init(service: PostService, breedService: BreedService) {
 		self.service = service
 		self.breedService = breedService
-		setupErrorSubscription()
 	}
 	
 	@MainActor
 	func add(user: SessionUserDetails) {
 		isLoading = true
-		service.uploadPost(with: post, user: user, image: image)
-			.sink { [weak self] result in
-				switch result {
-				case .failure(let error):
-					self?.state = .failed(error: error)
-				default:
-					break
-				}
-			} receiveValue: { [weak self] in
-				self?.state = .successful
+		
+		service.uploadPost(with: post, user: user, image: image) { result in
+			switch result {
+			case .success():
+				self.state = .successful
+			case .failure(let err):
+				self.state = .failed(error: err)
+				self.hasError = true
 			}
-			.store(in: &subscriptions)
+		}
+		
 		isLoading = false
 	}
 	
@@ -87,19 +82,4 @@ final class PostAddViewModel: PostAddViewModelProtocol {
 		}
 	}
 	
-}
-
-private extension PostAddViewModel {
-	func setupErrorSubscription() {
-		$state
-			.map { state -> Bool in
-				switch state {
-				case .successful, .na:
-					return false
-				case .failed:
-					return true
-				}
-			}
-			.assign(to: &$hasError)
-	}
 }
