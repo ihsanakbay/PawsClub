@@ -15,7 +15,6 @@ enum PostKeys: String {
 
 protocol PostService {
 	func fetchPosts(completion: @escaping(Result<[Post], Error>)->())
-	func fetchFavorites(user: SessionUserDetails, completion: @escaping(Result<[Post], Error>)->())
 	func uploadPost(with post: Post, user: SessionUserDetails, image: UIImage, completion: @escaping(Result<Void, Error>)->())
 }
 
@@ -37,46 +36,7 @@ final class PostManager: PostService {
 			completion(.success(data))
 		}
 	}
-	
-	func fetchFavorites(user: SessionUserDetails, completion: @escaping(Result<[Post], Error>)->()) {
-		COLLECTION_USERS.document(user.id).collection("user-likes").getDocuments { querySnapshot, error in
-			var favs: [Post] = [Post]()
-			
-			if let error = error {
-				completion(.failure(error))
-				return
-			}
-			guard let documents = querySnapshot?.documents else {
-				print("No data found.")
-				return
-			}
 
-			documents.forEach { queryDocumentSnapshot in
-				let postId = queryDocumentSnapshot.documentID
-				COLLECTION_POSTS.document(postId).getDocument { snapshot, error in
-					if let error = error {
-						completion(.failure(error))
-						return
-					}
-					guard let snapshot = snapshot, snapshot.exists else {
-						print("No data found.")
-						return
-					}
-					
-					let data = try? snapshot.data(as: Post.self)
-					if let data = data {
-						favs.append(data)
-						print("$$$$$: \(favs)")
-					}
-				}
-				print("%%%%%: \(favs)")
-			}
-			
-			print("%%%%%: \(favs)")
-			completion(.success(favs))
-		}
-	}
-	
 	
 	func uploadPost(with post: Post, user: SessionUserDetails, image: UIImage, completion: @escaping (Result<Void, Error>) -> ()) {
 		guard let imageData = image.jpegData(compressionQuality: 0.6) else {return}

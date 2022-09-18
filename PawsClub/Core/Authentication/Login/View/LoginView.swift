@@ -11,6 +11,8 @@ struct LoginView: View {
 	
 	@StateObject private var viewModel = LoginViewModel(service: LoginManager())
 	
+	@FocusState var isInputActive: Bool
+	
 	var body: some View {
 		NavigationView {
 			ZStack{
@@ -101,6 +103,16 @@ struct LoginView: View {
 						return Alert(title: Text("Error"), message: Text(error.localizedDescription))
 					} else {
 						return Alert(title: Text("Error"), message: Text("Something went wrong!"))
+					}
+				}
+			}
+			.toolbar {
+				ToolbarItemGroup(placement: .keyboard) {
+					Spacer()
+
+					Button("Done") {
+						isInputActive = false
+						hideKeyboard()
 					}
 				}
 			}

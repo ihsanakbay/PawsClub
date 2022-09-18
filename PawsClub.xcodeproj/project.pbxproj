@@ -48,6 +48,8 @@
 		F95779BB28C53E780014DC33 /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95779BA28C53E780014DC33 /* LocationView.swift */; };
 		F961270628C299F1004086DA /* PostAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F961270528C299F1004086DA /* PostAddView.swift */; };
 		F961270828C29FD8004086DA /* PostAddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F961270728C29FD8004086DA /* PostAddViewModel.swift */; };
+		F995D7AD28D79BFC00E8B45D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F995D7AC28D79BFC00E8B45D /* ProfileViewModel.swift */; };
+		F995D7B028D79EAA00E8B45D /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F995D7AF28D79EAA00E8B45D /* ProfileService.swift */; };
 		F9A1858828C38A2A008F242C /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858728C38A2A008F242C /* Breed.swift */; };
 		F9A1858B28C38A54008F242C /* BreedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858A28C38A54008F242C /* BreedService.swift */; };
 		F9A1858D28C3BCDD008F242C /* PickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858C28C3BCDD008F242C /* PickerData.swift */; };
@@ -120,6 +122,8 @@
 		F95779BA28C53E780014DC33 /* LocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
 		F961270528C299F1004086DA /* PostAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddView.swift; sourceTree = "<group>"; };
 		F961270728C29FD8004086DA /* PostAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewModel.swift; sourceTree = "<group>"; };
+		F995D7AC28D79BFC00E8B45D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		F995D7AF28D79EAA00E8B45D /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		F9A1858728C38A2A008F242C /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
 		F9A1858A28C38A54008F242C /* BreedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedService.swift; sourceTree = "<group>"; };
 		F9A1858C28C3BCDD008F242C /* PickerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerData.swift; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 		F91FCC0E28B2AFCE00C0B07E /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				F995D7AE28D79E8200E8B45D /* Services */,
 				F91FCC1028B2AFD400C0B07E /* ViewModel */,
 				F91FCC0F28B2AFD200C0B07E /* View */,
 			);
@@ -329,6 +334,7 @@
 		F91FCC1028B2AFD400C0B07E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F995D7AC28D79BFC00E8B45D /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -507,6 +513,14 @@
 				F95779B828C53D8C0014DC33 /* LocationViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F995D7AE28D79E8200E8B45D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F995D7AF28D79EAA00E8B45D /* ProfileService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		F9A1858528C38A0C008F242C /* Breed */ = {
@@ -785,6 +799,7 @@
 				F9FAC30A28BD2DB7005FAF4F /* ForgotPasswordService.swift in Sources */,
 				F95779BB28C53E780014DC33 /* LocationView.swift in Sources */,
 				F91FCC1228B2AFE000C0B07E /* ProfileView.swift in Sources */,
+				F995D7AD28D79BFC00E8B45D /* ProfileViewModel.swift in Sources */,
 				F9E245B628B818C3009420AE /* RegistrationService.swift in Sources */,
 				F91FCC3528B2CA1800C0B07E /* LoginView.swift in Sources */,
 				F91FCC0628B2AE0A00C0B07E /* MainTabView.swift in Sources */,
@@ -795,6 +810,7 @@
 				F9174D4928B4075900762717 /* Button+Extension.swift in Sources */,
 				F9A1858828C38A2A008F242C /* Breed.swift in Sources */,
 				F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */,
+				F995D7B028D79EAA00E8B45D /* ProfileService.swift in Sources */,
 				F90F7E5C28CE7C3B00C2C6D4 /* FavoritesViewModel.swift in Sources */,
 				F9C2FFEA28BFF83300331EF6 /* PostService.swift in Sources */,
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,

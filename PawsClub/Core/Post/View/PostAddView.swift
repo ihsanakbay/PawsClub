@@ -13,6 +13,7 @@ struct PostAddView: View {
 	@StateObject var viewModel = PostAddViewModel(service: PostManager(), breedService: BreedManager())
 	@StateObject var locationViewModel = LocationViewModel()
 	@EnvironmentObject var session: SessionManager
+	@FocusState var isInputActive: Bool
 	
 	@Environment(\.dismiss) var dismiss
 	
@@ -159,12 +160,17 @@ struct PostAddView: View {
 		.navigationTitle("Create New Post")
 		.navigationBarTitleDisplayMode(.inline)
 		.toolbar {
+			ToolbarItemGroup(placement: .keyboard) {
+				Spacer()
+				Button("Done") {
+					isInputActive = false
+					hideKeyboard()
+				}
+			}
 			ToolbarItem(placement: .navigationBarLeading) {
-				Button {
+				Button("Cancel", role: .cancel) {
 					viewModel.clear()
 					dismiss()
-				} label: {
-					Text("Cancel")
 				}
 				.foregroundColor(.red)
 			}

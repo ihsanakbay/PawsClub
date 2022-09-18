@@ -25,7 +25,6 @@ struct HomeView: View {
 		}
 		.onAppear() {
 			viewModel.subscribe()
-			print("Home: \(viewModel.posts)")
 		}
 	}
 }

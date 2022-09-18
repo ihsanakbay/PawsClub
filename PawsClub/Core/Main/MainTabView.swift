@@ -33,7 +33,7 @@ struct MainTabView: View {
 						Label("Favorite", systemImage: "heart")
 					}
 				
-				LazyView(ProfileView())
+				LazyView(ProfileView(uid: session.userDetails?.id ?? ""))
 					.tag(Tab.profile)
 					.tabItem {
 						Label("Profile", systemImage: "person")

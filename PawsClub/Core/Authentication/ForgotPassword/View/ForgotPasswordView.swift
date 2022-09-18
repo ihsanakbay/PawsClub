@@ -11,6 +11,8 @@ struct ForgotPasswordView: View {
 	@StateObject private var viewModel = ForgotPasswordViewModel(service: ForgotPasswordManager())
 	@Environment(\.dismiss) var dismiss
 	
+	@FocusState var isInputActive: Bool
+	
     var body: some View {
 		NavigationView {
 			VStack {
@@ -33,6 +35,27 @@ struct ForgotPasswordView: View {
 				.padding()
 			}
 			.padding()
+			.navigationTitle("Reset Password")
+			.navigationBarTitleDisplayMode(.inline)
+			.toolbar {
+				ToolbarItemGroup(placement: .keyboard) {
+					Spacer()
+
+					Button("Done") {
+						isInputActive = false
+						hideKeyboard()
+					}
+				}
+				ToolbarItem(placement: .navigationBarLeading) {
+					Button(role: .destructive) {
+						dismiss()
+					} label: {
+						Text("Cancel")
+					}
+					.foregroundColor(Color.theme.lightPinkColor)
+
+				}
+			}
 		}
     }
 }
