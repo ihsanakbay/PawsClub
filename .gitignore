@@ -47,6 +47,8 @@ playground.xcworkspace
 # .swiftpm
 
 .build/
+GoogleService-Info.plist
+*Info.plist
 
 # CocoaPods
 #
