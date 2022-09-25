@@ -8,24 +8,23 @@
 import SwiftUI
 
 struct HomeView: View {
-//	@ObservedObject var viewModel = HomeViewModel(service: PostManager())
-	@ObservedObject var viewModel = PostsListViewModel()
+	@StateObject var viewModel = PostsListViewModel()
 	@StateObject var locationViewModel = LocationViewModel()
 	
 	var body: some View {
 		ScrollView(showsIndicators: false) {
 			LazyVStack {
-				ForEach(viewModel.postsListCellViewModel, id: \.id) { viewModel in
+				ForEach(viewModel.posts, id: \.id) { post in
 					NavigationLink {
-//						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, ownerUid: viewModel.post.ownerUid)))
+						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post)))
 					} label: {
-						HomeViewListCell(viewModel: viewModel)
+						HomeViewListCell(post: post)
 					}
 				}
 			}
 		}
 		.onAppear() {
-			
+			viewModel.subscribe()
 		}
 	}
 }

@@ -15,10 +15,6 @@ enum PostKeys: String {
 class PostsRepository: ObservableObject {
 	@Published var posts = [Post]()
 	
-	init() {
-		getPosts()
-	}
-	
 	func getPosts() {
 		COLLECTION_POSTS
 			.order(by: "timestamp", descending: true)
@@ -29,9 +25,10 @@ class PostsRepository: ObservableObject {
 					}
 				}
 			}
+			
 	}
 	
-	func getFavoritesPosts() {
+	func getUsersPosts() {
 		guard let userId = Auth.auth().currentUser?.uid else { return }
 		COLLECTION_POSTS
 			.order(by: "timestamp", descending: true)
@@ -43,10 +40,14 @@ class PostsRepository: ObservableObject {
 					}
 				}
 			}
+			
 	}
 	
 	func addPost(_ post: Post, image: UIImage, completion: @escaping (Result<Void, Error>) -> Void) {
-		guard let uid = Auth.auth().currentUser?.uid else { return }
+		guard let uid = Auth.auth().currentUser?.uid else {
+			print("Invalid user id.")
+			return
+		}
 		guard let username = Auth.auth().currentUser?.displayName else { return }
 		guard let imageData = image.jpegData(compressionQuality: 0.6) else { return }
 		let ref = UploadType.Post.filePath
@@ -69,7 +70,8 @@ class PostsRepository: ObservableObject {
 				            PostKeys.latitude.rawValue: post.latitude,
 				            PostKeys.longitude.rawValue: post.longitude,
 				            PostKeys.ownerUid.rawValue: uid,
-				            PostKeys.ownerUsername.rawValue: username] as [String: Any]
+				            PostKeys.ownerUsername.rawValue: username,
+				            PostKeys.timestamp.rawValue: Timestamp(date: Date())] as [String: Any]
 				
 				COLLECTION_POSTS.addDocument(data: data) { error in
 					if let error = error {
@@ -91,7 +93,7 @@ class PostsRepository: ObservableObject {
 		            PostKeys.healthChecks.rawValue: post.healthChecks,
 		            PostKeys.isVaccinated.rawValue: post.isVaccinated,
 		            PostKeys.isNeutered.rawValue: post.isNeutered,
-					PostKeys.imageUrl.rawValue: post.imageUrl,
+		            PostKeys.imageUrl.rawValue: post.imageUrl,
 		            PostKeys.latitude.rawValue: post.latitude,
 		            PostKeys.longitude.rawValue: post.longitude,
 		            PostKeys.ownerUid.rawValue: post.ownerUid,
@@ -104,11 +106,12 @@ class PostsRepository: ObservableObject {
 		}
 	}
 	
-	func deletePost(_ post: Post, completion: @escaping(Result<Void, Error>)->()) {
+	func deletePost(_ post: Post, completion: @escaping (Result<Void, Error>) -> Void) {
 		COLLECTION_POSTS.document(post.id!).delete { error in
 			if let error = error {
 				completion(.failure(error))
 			}
 		}
 	}
+	
 }

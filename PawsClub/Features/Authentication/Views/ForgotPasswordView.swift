@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
-	@StateObject private var viewModel = ForgotPasswordViewModel(service: ForgotPasswordManager())
+	@ObservedObject var viewModel: AuthViewModel
+	@State private var emailAddress: String = ""
 	@Environment(\.dismiss) var dismiss
 	
 	@FocusState var isInputActive: Bool
@@ -16,12 +17,12 @@ struct ForgotPasswordView: View {
     var body: some View {
 		NavigationView {
 			VStack {
-				CustomTextField(text: $viewModel.email, placeholder: "Email", systemImageName: "envelope")
+				CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope")
 					.autocorrectionDisabled(true)
 					.textInputAutocapitalization(.never)
 					.padding(.horizontal)
 				Button {
-					viewModel.sendPasswordReset()
+					viewModel.resetPassword(with: emailAddress)
 					dismiss()
 				} label: {
 					Text("Reset Password")
@@ -62,6 +63,6 @@ struct ForgotPasswordView: View {
 
 struct ForgotPasswordView_Previews: PreviewProvider {
     static var previews: some View {
-        ForgotPasswordView()
+		ForgotPasswordView(viewModel: AuthViewModel())
     }
 }

@@ -5,20 +5,25 @@
 //  Created by İhsan Akbay on 11.09.2022.
 //
 
-import SwiftUI
-import Kingfisher
 import CoreLocation
+import Kingfisher
+import SwiftUI
 
 struct PostDetailView: View {
 	@Environment(\.dismiss) var dismiss
 	@ObservedObject var viewModel: PostDetailViewModel
-	@EnvironmentObject var session: SessionManager
-	
 	@StateObject var locationViewModel = LocationViewModel()
 	@State private var postLocation: String?
-	
 	@State private var isShowingConfirmation: Bool = false
+	
 	private var didLike: Bool { return viewModel.post.didLike ?? false }
+	
+	var timestampString: String {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .long
+		formatter.timeStyle = .none
+		return formatter.string(from: viewModel.post.timestamp.dateValue())
+	}
 	
 	init(viewModel: PostDetailViewModel) {
 		self.viewModel = viewModel
@@ -28,6 +33,8 @@ struct PostDetailView: View {
 		ZStack {
 			Color.theme.backgroundColor
 				.ignoresSafeArea()
+			
+//			ActivityIndicatorView(isVisible: true, type: )
 			ScrollView(showsIndicators: false) {
 				VStack {
 					ZStack(alignment: .topLeading) {
@@ -38,10 +45,9 @@ struct PostDetailView: View {
 							
 							Spacer()
 							
-							if (viewModel.post.ownerUid == session.userDetails?.id) {
-								toolbarEditButton
-							}
-							
+//							if viewModel.post.ownerUid == session.userDetails?.id {
+//								toolbarEditButton
+//							}
 						}
 						.padding()
 						.padding(.trailing, 8)
@@ -67,6 +73,9 @@ struct PostDetailView: View {
 			locationViewModel.getLocationName(location: CLLocation(latitude: viewModel.post.latitude, longitude: viewModel.post.longitude)) { name in
 				postLocation = name
 			}
+		}
+		.alert(isPresented: $viewModel.hasError) {
+			Alert(title: Text("Error"), message: Text(viewModel.errorMessage))
 		}
 	}
 }
@@ -99,14 +108,11 @@ extension PostDetailView {
 				
 				Spacer()
 				
-				Button {
-					didLike ? viewModel.unlike() : viewModel.like()
-				} label: {
-					Image(systemName: didLike ? "heart.fill" : "heart")
+				Button {} label: {
+					Image(systemName: viewModel.likeStateIconName)
 				}
 				.font(.title2)
 				.foregroundColor(Color.theme.pinkColor)
-				
 			}
 			
 			HStack(spacing: 4) {
@@ -150,7 +156,6 @@ extension PostDetailView {
 				.font(.subheadline)
 				.foregroundColor(.secondary)
 				.padding(.leading, 8)
-			
 		}
 	}
 	
@@ -160,13 +165,13 @@ extension PostDetailView {
 				.font(.headline)
 			
 			NavigationLink {
-				//				LazyView(ProfileView(uid: viewModel.post.ownerUid))
+//				LazyView(ProfileView(uid: viewModel.post.ownerUid))
 			} label: {
 				VStack(alignment: .leading, spacing: 4) {
 					Label(viewModel.post.ownerUsername, systemImage: "person.circle.fill")
 						.foregroundColor(Color.theme.pinkColor)
 					
-					Text(viewModel.timestampString)
+					Text(timestampString)
 						.foregroundColor(.secondary)
 						.font(.subheadline)
 				}
@@ -197,6 +202,7 @@ extension PostDetailView {
 		.confirmationDialog("Are you sure?", isPresented: $isShowingConfirmation, titleVisibility: .visible, actions: {
 			Button("Delete", role: .destructive) {
 				viewModel.deletePost()
+				dismiss()
 			}
 		})
 	}
@@ -217,13 +223,12 @@ struct ToolbarButtonModifiers: ViewModifier {
 
 extension View {
 	func toolbarButton() -> some View {
-		self.modifier(ToolbarButtonModifiers())
+		modifier(ToolbarButtonModifiers())
 	}
 }
 
-
 struct PostDetailView_Previews: PreviewProvider {
 	static var previews: some View {
-		PostDetailView(viewModel: PostDetailViewModel(post: Post.new, ownerUid: ""))
+		PostDetailView(viewModel: PostDetailViewModel(post: Post.new))
 	}
 }

@@ -12,7 +12,7 @@ import FirebaseCore
 struct PawsClubApp: App {
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-	@StateObject var session = SessionManager()
+	@StateObject private var authViewModel = AuthViewModel()
 	
 	init() {
 		fixiOS15AppearanceIssues()
@@ -20,12 +20,16 @@ struct PawsClubApp: App {
 	
 	var body: some Scene {
 		WindowGroup {
-			switch session.state {
-			case .loggedIn:
-				MainTabView()
-					.environmentObject(session)
-			case .loggedOut:
-				LoginView()
+			Group {
+				if authViewModel.user != nil {
+					MainTabView()
+				} else {
+					LoginView()
+				}
+			}
+			.environmentObject(authViewModel)
+			.onAppear {
+				authViewModel.listenToAuthState()
 			}
 		}
 	}

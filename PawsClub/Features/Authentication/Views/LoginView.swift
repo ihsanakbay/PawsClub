@@ -8,23 +8,16 @@
 import SwiftUI
 
 struct LoginView: View {
-	
-	@StateObject private var viewModel = LoginViewModel(service: LoginManager())
-	
+	@EnvironmentObject private var viewModel: AuthViewModel
+	@State private var emailAddress: String = ""
+	@State private var password: String = ""
 	@FocusState var isInputActive: Bool
 	
 	var body: some View {
 		NavigationView {
-			ZStack{
+			ZStack {
 				Color.theme.backgroundColor
 					.ignoresSafeArea()
-				
-				if viewModel.isLoading {
-					ProgressView()
-						.progressViewStyle(CircularProgressViewStyle())
-						.scaleEffect(1)
-				}
-				
 				VStack {
 					HStack(spacing: 8) {
 						Text("PAWS")
@@ -51,17 +44,17 @@ struct LoginView: View {
 					.frame(maxWidth: .infinity, alignment: .center)
 					
 					VStack(spacing: 8) {
-						CustomTextField(text: $viewModel.credentials.email, placeholder: "Email", systemImageName: "envelope.fill")
+						CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope.fill")
 							.autocorrectionDisabled(true)
 							.textInputAutocapitalization(.never)
-						CustomTextField(text: $viewModel.credentials.password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
+						CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
 							.autocorrectionDisabled(true)
 							.textInputAutocapitalization(.never)
 					}
 					.padding([.top, .horizontal])
 					
 					NavigationLink {
-						ForgotPasswordView()
+						ForgotPasswordView(viewModel: AuthViewModel())
 					} label: {
 						Text("Forgot Password?")
 							.foregroundColor(Color.theme.pinkColor)
@@ -72,7 +65,7 @@ struct LoginView: View {
 					.padding(.top, 4)
 					
 					Button {
-						viewModel.login()
+						viewModel.signIn(with: emailAddress, password: password)
 					} label: {
 						Text("Login")
 							.font(.system(size: 18, weight: .bold))
@@ -82,12 +75,12 @@ struct LoginView: View {
 					Spacer()
 					
 					NavigationLink {
-						RegisterView()
+						RegisterView(viewModel: AuthViewModel())
 					} label: {
 						Text("Don't have an account? ")
 							.foregroundColor(Color.theme.pinkColor)
 							.font(.subheadline) +
-						Text("Sign up")
+							Text("Sign up")
 							.foregroundColor(Color.theme.pinkColor)
 							.font(.subheadline)
 							.bold()
@@ -95,15 +88,10 @@ struct LoginView: View {
 					.frame(maxWidth: .infinity)
 					.padding(.horizontal)
 					.padding(.top, 4)
-					
 				}
 				.navigationBarHidden(true)
 				.alert(isPresented: $viewModel.hasError) {
-					if case .failed(let error) = viewModel.state {
-						return Alert(title: Text("Error"), message: Text(error.localizedDescription))
-					} else {
-						return Alert(title: Text("Error"), message: Text("Something went wrong!"))
-					}
+					Alert(title: Text("Error"), message: Text(viewModel.errorMessage))
 				}
 			}
 			.toolbar {

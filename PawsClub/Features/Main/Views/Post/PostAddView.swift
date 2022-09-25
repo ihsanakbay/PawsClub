@@ -5,27 +5,25 @@
 //  Created by İhsan Akbay on 2.09.2022.
 //
 
-import SwiftUI
-import Kingfisher
 import CoreLocationUI
+import Kingfisher
+import SwiftUI
 
 struct PostAddView: View {
-	@StateObject var viewModel = PostAddViewModel(service: PostManager(), breedService: BreedManager())
+	@StateObject var viewModel = PostAddViewModel(breedService: BreedRepository())
 	@StateObject var locationViewModel = LocationViewModel()
-	@EnvironmentObject var session: SessionManager
 	@FocusState var isInputActive: Bool
 	
 	@Environment(\.dismiss) var dismiss
 	
 	@State private var isImagePickerPresented: Bool = false
 	@State private var isLocationViewPresented: Bool = false
-	@State private var selectedImage: UIImage = UIImage()
+	@State private var selectedImage: UIImage = .init()
 	@State private var selectedKind: PET_KIND = .Other
 	@State private var selectedBreed: String = "Other"
 	@State private var selectedAge: PET_AGE = .baby
 	@State private var selectedGender: PET_GENDER = .female
 	@State private var selectedLocationName: String = ""
-	
 	
 	var body: some View {
 		List {
@@ -43,7 +41,7 @@ struct PostAddView: View {
 							.clipShape(Circle())
 							.frame(width: 150, height: 150)
 							.shadow(radius: 3)
-							.onTapGesture {isImagePickerPresented.toggle()}
+							.onTapGesture { isImagePickerPresented.toggle() }
 					} else {
 						Image(uiImage: selectedImage)
 							.resizable()
@@ -52,14 +50,13 @@ struct PostAddView: View {
 							.clipShape(Circle())
 							.frame(width: 150, height: 150)
 							.shadow(radius: 3)
-							.onTapGesture {isImagePickerPresented.toggle()}
+							.onTapGesture { isImagePickerPresented.toggle() }
 					}
 					
 					Spacer()
 				}
 			}
 			.listRowBackground(Color.clear)
-			
 			
 			Section("Pet Information") {
 				TextField("Name", text: $viewModel.post.name)
@@ -134,7 +131,7 @@ struct PostAddView: View {
 					viewModel.post.age = newValue
 				}
 				
-				HStack{
+				HStack {
 					Text("Location")
 					Spacer()
 					Text(selectedLocationName)
@@ -176,15 +173,12 @@ struct PostAddView: View {
 			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
-					if let user = session.userDetails {
-						viewModel.add(user: user)
-						dismiss()
-					}
+					viewModel.addPost()
+					dismiss()
 				} label: {
 					Text("Share")
 				}
 				.disabled(checkIfValid)
-				
 			}
 		}
 		.onAppear(perform: {
@@ -195,7 +189,7 @@ struct PostAddView: View {
 				selectedLocationName = locationName
 			}
 		})
-		.onChange(of: locationViewModel.userLocationName, perform: { newValue in
+		.onChange(of: locationViewModel.userLocationName, perform: { _ in
 			if let locationName = locationViewModel.userLocationName {
 				selectedLocationName = locationName
 			}
@@ -215,18 +209,17 @@ struct PostAddView: View {
 	
 	var checkIfValid: Bool {
 		viewModel.post.name.isEmpty ||
-		viewModel.post.about.isEmpty ||
-		viewModel.post.kind.isEmpty ||
-		viewModel.post.breed.isEmpty ||
-		viewModel.post.age.isEmpty ||
-		viewModel.post.gender.isEmpty ||
-		viewModel.image == UIImage()
+			viewModel.post.about.isEmpty ||
+			viewModel.post.kind.isEmpty ||
+			viewModel.post.breed.isEmpty ||
+			viewModel.post.age.isEmpty ||
+			viewModel.post.gender.isEmpty ||
+			viewModel.image == UIImage()
 	}
 	
 	private func loadImage() {
 		viewModel.image = selectedImage
 	}
-	
 }
 
 struct PostAddView_Previews: PreviewProvider {

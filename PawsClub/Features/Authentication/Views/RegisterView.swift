@@ -8,21 +8,18 @@
 import SwiftUI
 
 struct RegisterView: View {
-	
 	@Environment(\.dismiss) var dismiss
-	@StateObject private var viewModel = RegisterViewModel(service: RegistrationManager())
+	@ObservedObject var viewModel: AuthViewModel
+	@State private var emailAddress: String = ""
+	@State private var password: String = ""
+	@State private var username: String = ""
+//	@State private var fullname: String = ""
 	@FocusState var isInputActive: Bool
 	
 	var body: some View {
 		ZStack {
 			Color.theme.backgroundColor
 				.ignoresSafeArea()
-			
-			if viewModel.isLoading {
-				ProgressView()
-					.progressViewStyle(CircularProgressViewStyle())
-					.scaleEffect(1)
-			}
 			
 			VStack {
 				HStack(spacing: 8) {
@@ -50,25 +47,23 @@ struct RegisterView: View {
 				.frame(maxWidth: .infinity, alignment: .center)
 				
 				VStack(spacing: 8) {
-					CustomTextField(text: $viewModel.userCredentials.email, placeholder: "Email", systemImageName: "envelope")
+					CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $viewModel.userCredentials.password, placeholder: "Password", systemImageName: "lock", isSecure: true)
+					CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock", isSecure: true)
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $viewModel.userCredentials.fullname, placeholder: "Full Name", systemImageName: "person")
+//					CustomTextField(text: $fullname, placeholder: "Full Name", systemImageName: "person")
+//						.autocorrectionDisabled(true)
+//						.textInputAutocapitalization(.never)
+					CustomTextField(text: $username, placeholder: "Username", systemImageName: "at")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $viewModel.userCredentials.username, placeholder: "Username", systemImageName: "at")
-						.autocorrectionDisabled(true)
-						.textInputAutocapitalization(.never)
-					
 				}
 				.padding([.top, .horizontal])
 				
-				
 				Button {
-					viewModel.register()
+					viewModel.signUp(with: emailAddress, password: password, username: username)
 				} label: {
 					Text("Register")
 						.font(.system(size: 18, weight: .bold))
@@ -83,7 +78,7 @@ struct RegisterView: View {
 					Text("Already have an account? ")
 						.foregroundColor(Color.theme.lightPinkColor)
 						.font(.subheadline) +
-					Text("Sign in")
+						Text("Sign in")
 						.foregroundColor(Color.theme.lightPinkColor)
 						.font(.subheadline)
 						.bold()
@@ -91,15 +86,10 @@ struct RegisterView: View {
 				.frame(maxWidth: .infinity)
 				.padding(.horizontal)
 				.padding(.top, 4)
-				
 			}
 			.navigationBarHidden(true)
 			.alert(isPresented: $viewModel.hasError) {
-				if case .failed(let error) = viewModel.state {
-					return Alert(title: Text("Error"), message: Text(error.localizedDescription))
-				} else {
-					return Alert(title: Text("Error"), message: Text("Something went wrong!"))
-				}
+				Alert(title: Text("Error"), message: Text(viewModel.errorMessage))
 			}
 		}
 		.toolbar {
@@ -116,6 +106,6 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterView()
+		RegisterView(viewModel: AuthViewModel())
 	}
 }

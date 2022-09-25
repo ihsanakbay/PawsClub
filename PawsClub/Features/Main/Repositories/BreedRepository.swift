@@ -19,7 +19,7 @@ protocol BreedService {
 	func download(_ resource: String) async throws -> Result<Breed, Error>
 }
 
-final class BreedManager: BreedService {
+final class BreedRepository: BreedService {
 	func download(_ resource: String) async throws ->  Result<Breed, Error>  {
 		guard let url = URL(string: resource) else { throw NetworkServiceError.invalidUrl }
 

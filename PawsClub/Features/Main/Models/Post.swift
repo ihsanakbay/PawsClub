@@ -26,9 +26,8 @@ struct Post: Identifiable, Codable {
 	var imageUrl: String
 	var ownerUid: String
 	var ownerUsername: String
-	@ServerTimestamp var timestamp: Timestamp?
+	var timestamp: Timestamp = Timestamp(date: Date())
 	var didLike: Bool?
-	var order: Int = 0
 }
 
 
@@ -48,8 +47,8 @@ extension Post {
 			 imageUrl: "",
 			 ownerUid: "",
 			 ownerUsername: "",
-			 didLike: false,
-			 order: 0
+			 timestamp: Timestamp(date: Date()),
+			 didLike: false
 		)
 	}
 }

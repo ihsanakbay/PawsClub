@@ -12,12 +12,11 @@ enum Tab: String {
 }
 
 struct MainTabView: View {
-	@EnvironmentObject var session: SessionManager
 	@State private var selectedTab: Tab = .home
 	@State private var isSettingPresented: Bool = false
 	@State private var isFilterSheetOpen: Bool = false
 	@State private var isPostAddViewPresented: Bool = false
-	
+
 	var body: some View {
 		NavigationView {
 			TabView(selection: $selectedTab) {
@@ -26,14 +25,14 @@ struct MainTabView: View {
 					.tabItem {
 						Label("Home", systemImage: "house")
 					}
-				
-				LazyView(FavoritesView())
+
+				FavoritesView()
 					.tag(Tab.favorites)
 					.tabItem {
 						Label("Favorite", systemImage: "heart")
 					}
-				
-				LazyView(ProfileView(uid: session.userDetails?.id ?? ""))
+
+				ProfileView()
 					.tag(Tab.profile)
 					.tabItem {
 						Label("Profile", systemImage: "person")
@@ -49,7 +48,6 @@ struct MainTabView: View {
 						} label: {
 							Image(systemName: "slider.horizontal.3")
 						}
-						
 					}
 				}
 				ToolbarItem(placement: .navigationBarTrailing) {
@@ -61,7 +59,7 @@ struct MainTabView: View {
 						}
 						.font(.system(size: 20))
 					}
-					
+
 					if selectedTab == .profile {
 						Button {
 							isSettingPresented.toggle()
@@ -73,11 +71,11 @@ struct MainTabView: View {
 			}
 			.sheet(isPresented: $isPostAddViewPresented, content: {
 				NavigationView {
-					LazyView(PostAddView())
+					PostAddView()
 				}
 			})
 			.sheet(isPresented: $isSettingPresented) {
-				LazyView(SettingsView())
+				SettingsView()
 			}
 			.sheet(isPresented: $isFilterSheetOpen) {
 //				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
@@ -90,7 +88,6 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
 	static var previews: some View {
 		MainTabView()
-			.environmentObject(SessionManager())
+			.environmentObject(AuthViewModel())
 	}
 }
-
