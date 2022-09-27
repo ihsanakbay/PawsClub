@@ -10,7 +10,7 @@ import Kingfisher
 import SwiftUI
 
 struct PostAddView: View {
-	@StateObject var viewModel = PostAddViewModel(breedService: BreedRepository())
+	@StateObject var viewModel = PostAddViewModel()
 	@StateObject var locationViewModel = LocationViewModel()
 	@FocusState var isInputActive: Bool
 	

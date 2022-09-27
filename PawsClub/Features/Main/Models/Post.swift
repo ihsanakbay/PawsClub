@@ -30,6 +30,9 @@ struct Post: Identifiable, Codable {
 	var didLike: Bool?
 }
 
+enum PostKeys: String {
+	case id, name, about, kind, breed, age, gender, healthChecks, isVaccinated, isNeutered, latitude, longitude, imageUrl, ownerUid, ownerUsername, timestamp, didLike
+}
 
 extension Post {
 	static var new: Post {

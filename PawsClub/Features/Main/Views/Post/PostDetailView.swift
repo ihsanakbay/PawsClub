@@ -6,6 +6,7 @@
 //
 
 import CoreLocation
+import Firebase
 import Kingfisher
 import SwiftUI
 
@@ -34,20 +35,17 @@ struct PostDetailView: View {
 			Color.theme.backgroundColor
 				.ignoresSafeArea()
 			
-//			ActivityIndicatorView(isVisible: true, type: )
 			ScrollView(showsIndicators: false) {
 				VStack {
 					ZStack(alignment: .topLeading) {
 						imageSection
-						
+							
 						HStack(alignment: .firstTextBaseline) {
 							toolbarBackButton
-							
 							Spacer()
-							
-//							if viewModel.post.ownerUid == session.userDetails?.id {
-//								toolbarEditButton
-//							}
+							if viewModel.post.ownerUid == Auth.auth().currentUser?.uid {
+								toolbarEditButton
+							}
 						}
 						.padding()
 						.padding(.trailing, 8)
@@ -168,9 +166,8 @@ extension PostDetailView {
 //				LazyView(ProfileView(uid: viewModel.post.ownerUid))
 			} label: {
 				VStack(alignment: .leading, spacing: 4) {
-					Label(viewModel.post.ownerUsername, systemImage: "person.circle.fill")
+					Text(viewModel.post.ownerUsername)
 						.foregroundColor(Color.theme.pinkColor)
-					
 					Text(timestampString)
 						.foregroundColor(.secondary)
 						.font(.subheadline)

@@ -19,8 +19,6 @@ final class FavoritesViewModel: ObservableObject {
 	}
 
 	func unsubscribe() {
-		print("unsubs fav")
-		
 		if listenerRegistration != nil {
 			listenerRegistration?.remove()
 			listenerRegistration = nil
@@ -28,8 +26,6 @@ final class FavoritesViewModel: ObservableObject {
 	}
 
 	func subscribe() {
-		print("subs fav")
-		print(listenerRegistration)
 //		if listenerRegistration == nil {
 //			listenerRegistration = COLLECTION_POSTS
 //				.order(by: "timestamp", descending: true)

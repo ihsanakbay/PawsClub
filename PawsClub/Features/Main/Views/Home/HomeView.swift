@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
 	@StateObject var viewModel = PostsListViewModel()
 	@StateObject var locationViewModel = LocationViewModel()
-	
+
 	var body: some View {
 		ScrollView(showsIndicators: false) {
 			LazyVStack {
@@ -19,16 +19,16 @@ struct HomeView: View {
 						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post)))
 					} label: {
 						HomeViewListCell(post: post)
+							.redacted(reason: viewModel.isLoading ? .placeholder : [])
 					}
 				}
 			}
 		}
-		.onAppear() {
+		.onAppear {
 			viewModel.subscribe()
 		}
 	}
 }
-
 
 struct HomeView_Previews: PreviewProvider {
 	static var previews: some View {

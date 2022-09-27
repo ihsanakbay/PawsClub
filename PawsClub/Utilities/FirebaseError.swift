@@ -10,4 +10,5 @@ import Foundation
 enum FirebaseError: Error {
 	case badSnapshot
 	case notExist
+	case noUid
 }

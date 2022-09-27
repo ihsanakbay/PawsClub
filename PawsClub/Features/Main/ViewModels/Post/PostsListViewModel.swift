@@ -10,6 +10,7 @@ import Foundation
 
 class PostsListViewModel: ObservableObject {
 	@Published var posts = [Post]()
+	@Published var isLoading: Bool = false
 	@Published var hasError: Bool = false
 	@Published var errorMessage: String = ""
 	private var listenerRegistration: ListenerRegistration?
@@ -24,8 +25,11 @@ class PostsListViewModel: ObservableObject {
 			listenerRegistration = nil
 		}
 	}
+	
+	
 
 	func subscribe() {
+		self.isLoading = true
 		if listenerRegistration == nil {
 			listenerRegistration = COLLECTION_POSTS
 				.order(by: "timestamp", descending: true)
@@ -39,5 +43,6 @@ class PostsListViewModel: ObservableObject {
 				}
 			}
 		}
+		self.isLoading = false
 	}
 }
