@@ -47,15 +47,12 @@ struct RegisterView: View {
 				.frame(maxWidth: .infinity, alignment: .center)
 				
 				VStack(spacing: 8) {
-					CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope")
+					CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope.fill")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock", isSecure: true)
+					CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-//					CustomTextField(text: $fullname, placeholder: "Full Name", systemImageName: "person")
-//						.autocorrectionDisabled(true)
-//						.textInputAutocapitalization(.never)
 					CustomTextField(text: $username, placeholder: "Username", systemImageName: "at")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
@@ -63,7 +60,9 @@ struct RegisterView: View {
 				.padding([.top, .horizontal])
 				
 				Button {
-					viewModel.signUp(with: emailAddress, password: password, username: username)
+					Task {
+						await viewModel.signUp(with: emailAddress, password: password, username: username)
+					}
 				} label: {
 					Text("Register")
 						.font(.system(size: 18, weight: .bold))

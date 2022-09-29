@@ -10,9 +10,8 @@ import Foundation
 
 class PostsListViewModel: ObservableObject {
 	@Published var posts = [Post]()
-	@Published var isLoading: Bool = false
 	@Published var hasError: Bool = false
-	@Published var errorMessage: String = ""
+	
 	private var listenerRegistration: ListenerRegistration?
 	
 	deinit {
@@ -26,23 +25,19 @@ class PostsListViewModel: ObservableObject {
 		}
 	}
 	
-	
-
 	func subscribe() {
-		self.isLoading = true
 		if listenerRegistration == nil {
 			listenerRegistration = COLLECTION_POSTS
 				.order(by: "timestamp", descending: true)
-				.addSnapshotListener { (querySnapshot, error) in
-				guard let documents = querySnapshot?.documents else {
-					print("No docs")
-					return
+				.addSnapshotListener { querySnapshot, error in
+					if let error = error {
+						self.hasError = true
+					}
+					guard let documents = querySnapshot?.documents else { return }
+					self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in
+						try? queryDocumentSnapshot.data(as: Post.self)
+					}
 				}
-				self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in
-					try? queryDocumentSnapshot.data(as: Post.self)
-				}
-			}
 		}
-		self.isLoading = false
 	}
 }

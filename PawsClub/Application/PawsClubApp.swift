@@ -28,7 +28,7 @@ struct PawsClubApp: App {
 				}
 			}
 			.environmentObject(authViewModel)
-			.onAppear {
+			.onAppear{
 				authViewModel.listenToAuthState()
 			}
 		}

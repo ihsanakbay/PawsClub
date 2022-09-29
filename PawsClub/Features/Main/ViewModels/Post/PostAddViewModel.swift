@@ -17,54 +17,80 @@ enum NetworkServiceError: Error {
 }
 
 class PostAddViewModel: ObservableObject {
+	
+	enum State {
+		case na
+		case loading
+		case success(success: Bool)
+		case failed(error: Error)
+	}
+	
+	@Published private(set) var state: State = .na
+	
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
 	@Published var image: UIImage = .init()
 	@Published var hasError: Bool = false
 	@Published var errorMessage: String = ""
 	
+	private let service: PostService
+	
+	init(service: PostService) {
+		self.service = service
+	}
+	
 
 	@MainActor
-	func addPost() {
-		guard let uid = Auth.auth().currentUser?.uid else {
-			print("Invalid user id.")
-			return
+	func addPost() async {
+		do {
+			try await service.addPost(image: image, post: post)
+			self.state = .success(success: true)
+		} catch {
+			self.state = .failed(error: error)
+			self.hasError = true
 		}
-		guard let username = Auth.auth().currentUser?.displayName else { return }
-		guard let imageData = image.jpegData(compressionQuality: 0.6) else { return }
-		let ref = UploadType.Post.filePath
-		ref.putData(imageData) { _, error in
-			if let error = error {
-				self.hasError = true
-				self.errorMessage = error.localizedDescription
-			}
-			ref.downloadURL { url, _ in
-				guard let url = url?.absoluteString else { return }
-				let data = [PostKeys.name.rawValue: self.post.name,
-							PostKeys.about.rawValue: self.post.about,
-							PostKeys.kind.rawValue: self.post.kind,
-							PostKeys.breed.rawValue: self.post.breed,
-							PostKeys.age.rawValue: self.post.age,
-							PostKeys.gender.rawValue: self.post.gender,
-							PostKeys.healthChecks.rawValue: self.post.healthChecks,
-							PostKeys.isVaccinated.rawValue: self.post.isVaccinated,
-							PostKeys.isNeutered.rawValue: self.post.isNeutered,
-							PostKeys.imageUrl.rawValue: url,
-							PostKeys.latitude.rawValue: self.post.latitude,
-							PostKeys.longitude.rawValue: self.post.longitude,
-							PostKeys.ownerUid.rawValue: uid,
-							PostKeys.ownerUsername.rawValue: username,
-							PostKeys.timestamp.rawValue: Timestamp(date: Date())] as [String: Any]
-				
-				COLLECTION_POSTS.addDocument(data: data) { error in
-					if let error = error {
-						self.hasError = true
-						self.errorMessage = error.localizedDescription
-					}
-					self.hasError = false
-				}
-			}
-		}
+		
+//		guard let uid = Auth.auth().currentUser?.uid else {
+//			print("Invalid user id.")
+//			return
+//		}
+//		guard let user = Auth.auth().currentUser else {return}
+//		let username = user.displayName
+//		guard let imageData = image.jpegData(compressionQuality: 0.6) else { return }
+//		let ref = UploadType.Post.filePath
+//
+//		ref.putData(imageData) { _, error in
+//			if let error = error {
+//				self.hasError = true
+//				self.errorMessage = error.localizedDescription
+//			}
+//			ref.downloadURL { url, _ in
+//				guard let url = url?.absoluteString else { return }
+//				let data = [PostKeys.name.rawValue: self.post.name,
+//							PostKeys.about.rawValue: self.post.about,
+//							PostKeys.kind.rawValue: self.post.kind,
+//							PostKeys.breed.rawValue: self.post.breed,
+//							PostKeys.age.rawValue: self.post.age,
+//							PostKeys.gender.rawValue: self.post.gender,
+//							PostKeys.healthChecks.rawValue: self.post.healthChecks,
+//							PostKeys.isVaccinated.rawValue: self.post.isVaccinated,
+//							PostKeys.isNeutered.rawValue: self.post.isNeutered,
+//							PostKeys.imageUrl.rawValue: url,
+//							PostKeys.latitude.rawValue: self.post.latitude,
+//							PostKeys.longitude.rawValue: self.post.longitude,
+//							PostKeys.ownerUid.rawValue: uid,
+//							PostKeys.ownerUsername.rawValue: username,
+//							PostKeys.timestamp.rawValue: Timestamp(date: Date())] as [String: Any]
+//
+//				COLLECTION_POSTS.addDocument(data: data) { error in
+//					if let error = error {
+//						self.hasError = true
+//						self.errorMessage = error.localizedDescription
+//					}
+//					self.hasError = false
+//				}
+//			}
+//		}
 	}
 	
 	

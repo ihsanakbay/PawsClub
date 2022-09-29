@@ -19,13 +19,21 @@ struct HomeView: View {
 						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post)))
 					} label: {
 						HomeViewListCell(post: post)
-							.redacted(reason: viewModel.isLoading ? .placeholder : [])
 					}
 				}
 			}
 		}
 		.onAppear {
 			viewModel.subscribe()
+		}
+		.alert(isPresented: $viewModel.hasError) {
+			Alert(
+				title: Text("Error"),
+				message: Text("Something went wrong"),
+				primaryButton: .cancel(),
+				secondaryButton: .default(Text("Retry"), action: {
+					viewModel.subscribe()
+				}))
 		}
 	}
 }

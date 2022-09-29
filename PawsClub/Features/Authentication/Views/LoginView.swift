@@ -11,6 +11,7 @@ struct LoginView: View {
 	@EnvironmentObject private var viewModel: AuthViewModel
 	@State private var emailAddress: String = ""
 	@State private var password: String = ""
+	@State private var isResetPasswordShowing: Bool = false
 	@FocusState var isInputActive: Bool
 	
 	var body: some View {
@@ -53,8 +54,8 @@ struct LoginView: View {
 					}
 					.padding([.top, .horizontal])
 					
-					NavigationLink {
-						ForgotPasswordView(viewModel: AuthViewModel())
+					Button {
+						isResetPasswordShowing.toggle()
 					} label: {
 						Text("Forgot Password?")
 							.foregroundColor(Color.theme.pinkColor)
@@ -65,7 +66,9 @@ struct LoginView: View {
 					.padding(.top, 4)
 					
 					Button {
-						viewModel.signIn(with: emailAddress, password: password)
+						Task {
+							await viewModel.signIn(with: emailAddress, password: password)
+						}
 					} label: {
 						Text("Login")
 							.font(.system(size: 18, weight: .bold))
@@ -103,6 +106,9 @@ struct LoginView: View {
 						hideKeyboard()
 					}
 				}
+			}
+			.sheet(isPresented: $isResetPasswordShowing) {
+				ForgotPasswordView(viewModel: AuthViewModel())
 			}
 		}
 	}

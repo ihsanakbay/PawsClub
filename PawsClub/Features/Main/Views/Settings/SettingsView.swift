@@ -10,13 +10,15 @@ import SwiftUI
 struct SettingsView: View {
 	@EnvironmentObject var viewModel: AuthViewModel
 	@Environment(\.dismiss) private var dismiss
-	
+
 	var body: some View {
 		NavigationView(content: {
 			List {
 				Button {
-					viewModel.signOut()
-					dismiss()
+					Task {
+						await viewModel.signOut()
+						dismiss()
+					}
 				} label: {
 					Label("Logout", systemImage: "power.circle.fill")
 						.foregroundColor(Color.theme.pinkColor)

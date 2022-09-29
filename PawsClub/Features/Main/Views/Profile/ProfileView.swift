@@ -81,7 +81,12 @@ struct ProfileView: View {
 					}
 				}
 			case .loading:
-				ProgressView()
+				VStack {
+					Spacer()
+					ProgressView()
+						.tint(Color.theme.lightPinkColor)
+					Spacer()
+				}
 			default:
 				EmptyView()
 			}

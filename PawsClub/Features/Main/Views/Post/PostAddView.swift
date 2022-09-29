@@ -10,7 +10,7 @@ import Kingfisher
 import SwiftUI
 
 struct PostAddView: View {
-	@StateObject var viewModel = PostAddViewModel()
+	@StateObject var viewModel = PostAddViewModel(service: PostService())
 	@StateObject var locationViewModel = LocationViewModel()
 	@FocusState var isInputActive: Bool
 	
@@ -173,12 +173,14 @@ struct PostAddView: View {
 			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
-					viewModel.addPost()
+					Task {
+						await viewModel.addPost()
+					}
 					dismiss()
 				} label: {
 					Text("Share")
 				}
-				.disabled(checkIfValid)
+//				.disabled(checkIfValid)
 			}
 		}
 		.onAppear(perform: {

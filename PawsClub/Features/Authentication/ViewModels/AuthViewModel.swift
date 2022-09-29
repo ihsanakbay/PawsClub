@@ -21,71 +21,55 @@ final class AuthViewModel: ObservableObject {
 			objectWillChange.send()
 		}
 	}
-	
+
 	private var handler: AuthStateDidChangeListenerHandle?
 
 	func listenToAuthState() {
-		handler = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+		self.handler = Auth.auth().addStateDidChangeListener { [weak self] _, user in
 			guard let self = self else {
 				return
 			}
 			self.user = user
 		}
 	}
-	
-	func unbind () {
+
+	func unbind() {
 		if let handler = handler {
 			Auth.auth().removeStateDidChangeListener(handler)
 		}
 	}
 
-	func signIn(with email: String,
-	            password: String)
-	{
-		Auth.auth()
-			.signIn(withEmail: email, password: password) { _, error in
-				if let error = error {
-					self.hasError = true
-					self.errorMessage = error.localizedDescription
-				} else {
-					self.hasError = false
-				}
-			}
-	}
-
-	func signUp(with email: String,
-	            password: String,
-	            username: String)
-	{
-		Auth.auth().createUser(withEmail: email, password: password) { result, error in
-			if let error = error {
-				self.hasError = true
-				self.errorMessage = error.localizedDescription
-			} else {
-				let changeRequest = result?.user.createProfileChangeRequest()
-				changeRequest?.displayName = username
-				changeRequest?.commitChanges(completion: { error in
-					if let error = error {
-						self.hasError = true
-						self.errorMessage = "Something went wrong: \(error.localizedDescription)"
-					}
-				})
-			}
-		}
-	}
-	
-	func resetPassword(with email: String) {
-		Auth.auth().sendPasswordReset(withEmail: email) { error in
-			if let error = error {
-				self.hasError = true
-				self.errorMessage = error.localizedDescription
-			} else {
-				self.hasError = false
-			}
+	func signIn(with email: String, password: String) async {
+		do {
+			try await Auth.auth().signIn(withEmail: email, password: password)
+		} catch {
+			self.hasError = true
+			self.errorMessage = error.localizedDescription
 		}
 	}
 
-	func signOut() {
+	func signUp(with email: String, password: String, username: String) async {
+		do {
+			let result = try await Auth.auth().createUser(withEmail: email, password: password)
+			let changeRequest = result.user.createProfileChangeRequest()
+			changeRequest.displayName = username
+			try await changeRequest.commitChanges()
+		} catch {
+			self.hasError = true
+			self.errorMessage = "Something went wrong: \(error.localizedDescription)"
+		}
+	}
+
+	func resetPassword(with email: String) async {
+		do {
+			try await Auth.auth().sendPasswordReset(withEmail: email)
+		} catch {
+			self.hasError = true
+			self.errorMessage = error.localizedDescription
+		}
+	}
+
+	func signOut() async {
 		do {
 			try Auth.auth().signOut()
 		} catch let signOutError as NSError {
