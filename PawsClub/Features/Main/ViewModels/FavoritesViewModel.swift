@@ -11,8 +11,16 @@ import Firebase
 final class FavoritesViewModel: ObservableObject {
 	@Published var posts = [Post]()
 	@Published var hasError: Bool = false
-	@Published var errorMessage: String = ""
+	@Published var isLoading: Bool = true
+	var errorMessage: String?
+
 	private var listenerRegistration: ListenerRegistration?
+	private let service: PostService
+
+	init(service: PostService) {
+		self.service = service
+		subscribe()
+	}
 
 	deinit {
 		unsubscribe()
@@ -29,16 +37,28 @@ final class FavoritesViewModel: ObservableObject {
 //		if listenerRegistration == nil {
 //			listenerRegistration = COLLECTION_POSTS
 //				.order(by: "timestamp", descending: true)
-////				.whereField("owne", isEqualTo: <#T##Any#>)
-//				.addSnapshotListener { querySnapshot, _ in
-//				guard let documents = querySnapshot?.documents else {
-//					print("No docs")
-//					return
+//				.addSnapshotListener { querySnapshot, error in
+//					if let error = error {
+//						self.changeError()
+//					}
+//					guard let documents = querySnapshot?.documents else { return }
+//					self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in
+//						try? queryDocumentSnapshot.data(as: Post.self)
+//					}
 //				}
-//				documents.compactMap { queryDocumentSnapshot in
-//					try? queryDocumentSnapshot.data(as: Post.self)
-//				}
-//			}
 //		}
 	}
+	
+	func changeLoading() {
+		DispatchQueue.main.async {
+			self.isLoading.toggle()
+		}
+	}
+
+	func changeError() {
+		DispatchQueue.main.async {
+			self.hasError.toggle()
+		}
+	}
+
 }

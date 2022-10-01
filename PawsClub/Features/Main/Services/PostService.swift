@@ -47,4 +47,19 @@ struct PostService {
 
 		_ = try await COLLECTION_POSTS.addDocument(data: data)
 	}
+
+	func likePost(uid: String, postId: String) async throws {
+		try await COLLECTION_POSTS.document(postId).collection("post-likes").document(uid).setData([:])
+		try await COLLECTION_USERS.document(uid).collection("user-likes").document(postId).setData([:])
+	}
+
+	func unlikePost(uid: String, postId: String) async throws {
+		try await COLLECTION_POSTS.document(postId).collection("post-likes").document(uid).delete()
+		try await COLLECTION_USERS.document(uid).collection("user-likes").document(postId).delete()
+	}
+
+	func checkIfUserLikedPost(uid: String, postId: String) async throws -> Bool {
+		let result = try await COLLECTION_POSTS.document(postId).collection("post-likes").document(uid).getDocument()
+		return result.exists
+	}
 }

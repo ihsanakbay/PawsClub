@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-	@ObservedObject var viewModel = FavoritesViewModel()
+	@ObservedObject var viewModel = FavoritesViewModel(service: PostService())
 	@StateObject var locationViewModel = LocationViewModel()
 	
     var body: some View {

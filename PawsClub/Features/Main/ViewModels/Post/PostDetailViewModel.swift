@@ -6,9 +6,10 @@
 //
 
 import Combine
-import Foundation
+import Firebase
 
-class PostDetailViewModel: ObservableObject {
+@MainActor
+final class PostDetailViewModel: ObservableObject {
 	@Published var post: Post
 	@Published var likeStateIconName = ""
 	@Published var isLoading: Bool = false
@@ -17,8 +18,12 @@ class PostDetailViewModel: ObservableObject {
 	var id = ""
 	private var cancellables = Set<AnyCancellable>()
 
-	init(post: Post) {
+	let service: PostService
+
+	init(post: Post, service: PostService) {
 		self.post = post
+		self.service = service
+		Task { await self.checkIfUserLikedPost() }
 
 		$post
 			.map { post in
@@ -70,6 +75,48 @@ class PostDetailViewModel: ObservableObject {
 				} else {
 					self.hasError = false
 				}
+			}
+		}
+	}
+
+	func likePost() async {
+		if let postId = post.id,
+		   let uid = Auth.auth().currentUser?.uid
+		{
+			do {
+				try await service.likePost(uid: uid, postId: postId)
+				post.didLike = true
+			} catch {
+				hasError = true
+				errorMessage = error.localizedDescription
+			}
+		}
+	}
+
+	func unlikePost() async {
+		if let postId = post.id,
+		   let uid = Auth.auth().currentUser?.uid
+		{
+			do {
+				try await service.unlikePost(uid: uid, postId: postId)
+				post.didLike = false
+			} catch {
+				hasError = true
+				errorMessage = error.localizedDescription
+			}
+		}
+	}
+
+	func checkIfUserLikedPost() async {
+		if let postId = post.id,
+		   let uid = Auth.auth().currentUser?.uid
+		{
+			do {
+				let didLike = try await service.checkIfUserLikedPost(uid: uid, postId: postId)
+				post.didLike = didLike
+			} catch {
+				hasError = true
+				errorMessage = error.localizedDescription
 			}
 		}
 	}

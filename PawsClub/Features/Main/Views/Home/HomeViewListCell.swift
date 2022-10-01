@@ -30,19 +30,16 @@ struct HomeViewListCell: View {
 				.frame(height: 120)
 
 			HStack {
-				
-				AsyncImage(url: URL(string: post.imageUrl)) { image in
-					image
-						.resizable()
-						.scaledToFill()
-						.aspectRatio(contentMode: .fill)
-						.frame(width: screenSize.width / 3, height: 120)
-						.clipped()
-						.cornerRadius(25)
-				} placeholder: {
-					ProgressView()
-						.frame(width: screenSize.width / 3, height: 120)
-				}
+				KFImage(URL(string: post.imageUrl))
+					.placeholder({ progress in
+						ProgressView()
+					})
+					.resizable()
+					.scaledToFill()
+					.aspectRatio(contentMode: .fill)
+					.frame(width: screenSize.width / 3, height: 120)
+					.clipped()
+					.cornerRadius(25)
 
 				Spacer()
 

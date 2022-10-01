@@ -74,7 +74,7 @@ struct ProfileView: View {
 				LazyVStack {
 					ForEach(posts, id: \.id) { post in
 						NavigationLink {
-							LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post)))
+							LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
 						} label: {
 							HomeViewListCell(post: post)
 						}

@@ -82,6 +82,9 @@ extension PostDetailView {
 	private var imageSection: some View {
 		TabView {
 			KFImage(URL(string: viewModel.post.imageUrl))
+				.placeholder({ progress in
+					ProgressView()
+				})
 				.resizable()
 				.scaledToFill()
 				.frame(width: screenSize.width)
@@ -106,7 +109,11 @@ extension PostDetailView {
 				
 				Spacer()
 				
-				Button {} label: {
+				Button {
+					Task {
+						await didLike ? viewModel.unlikePost() : viewModel.likePost()
+					}
+				} label: {
 					Image(systemName: viewModel.likeStateIconName)
 				}
 				.font(.title2)
@@ -226,6 +233,6 @@ extension View {
 
 struct PostDetailView_Previews: PreviewProvider {
 	static var previews: some View {
-		PostDetailView(viewModel: PostDetailViewModel(post: Post.new))
+		PostDetailView(viewModel: PostDetailViewModel(post: Post.new, service: PostService()))
 	}
 }
