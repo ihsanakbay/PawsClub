@@ -52,6 +52,8 @@
 		F9A1858D28C3BCDD008F242C /* PickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858C28C3BCDD008F242C /* PickerData.swift */; };
 		F9C1AA6B28C13FE100FC74AC /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */; };
 		F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2FFE728BFF82B00331EF6 /* Post.swift */; };
+		F9E58B7328E8C50A004998BB /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F9E58B7228E8C50A004998BB /* Localizable.strings */; };
+		F9E58B7528E8C521004998BB /* LocalizableKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E58B7428E8C521004998BB /* LocalizableKeys.swift */; };
 		F9E996DE28C3E6C400D67478 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E996DD28C3E6C400D67478 /* PhotoPicker.swift */; };
 /* End PBXBuildFile section */
 
@@ -118,6 +120,8 @@
 		F9C1AA6A28C13FE100FC74AC /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
 		F9C2FFE728BFF82B00331EF6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F9CCEB0528B6A78E004EFC44 /* PawsClub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PawsClub.entitlements; sourceTree = "<group>"; };
+		F9E58B7228E8C50A004998BB /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		F9E58B7428E8C521004998BB /* LocalizableKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableKeys.swift; sourceTree = "<group>"; };
 		F9E996DD28C3E6C400D67478 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -244,6 +248,7 @@
 		F91FCC1A28B2B59300C0B07E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				F9E58B7128E8C4FD004998BB /* Localization */,
 				F9C1AA6928C13FD400FC74AC /* Constants */,
 				F91FCC3628B2CA9400C0B07E /* ReusableViews */,
 				F91FCC2428B2BCC300C0B07E /* Helpers */,
@@ -305,10 +310,10 @@
 			children = (
 				F91FCC0528B2AE0A00C0B07E /* MainTabView.swift */,
 				F980FFFB28DFCBB8001B7128 /* Home */,
+				F980FFFA28DFCBA1001B7128 /* Post */,
 				F980000E28E080DC001B7128 /* Favorites */,
 				F980000828E0722B001B7128 /* Profile */,
 				F980000B28E0723F001B7128 /* Settings */,
-				F980FFFA28DFCBA1001B7128 /* Post */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -409,6 +414,15 @@
 				F90F7E5628CDFA0F00C2C6D4 /* General.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		F9E58B7128E8C4FD004998BB /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				F9E58B7228E8C50A004998BB /* Localizable.strings */,
+				F9E58B7428E8C521004998BB /* LocalizableKeys.swift */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -526,6 +540,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9E58B7328E8C50A004998BB /* Localizable.strings in Resources */,
 				F91FCBDD28B2A3E700C0B07E /* Preview Assets.xcassets in Resources */,
 				F97AA6AD28E6262700C0A1F4 /* LaunchScreen.storyboard in Resources */,
 				F91FCBDA28B2A3E700C0B07E /* Assets.xcassets in Resources */,
@@ -573,6 +588,7 @@
 				F918141128E380F3006DE03C /* PostService.swift in Sources */,
 				F9174D4928B4075900762717 /* Button+Extension.swift in Sources */,
 				F9A1858828C38A2A008F242C /* Breed.swift in Sources */,
+				F9E58B7528E8C521004998BB /* LocalizableKeys.swift in Sources */,
 				F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */,
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,
 				F980000528E06483001B7128 /* AuthViewModel.swift in Sources */,

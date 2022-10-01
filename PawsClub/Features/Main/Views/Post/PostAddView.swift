@@ -10,11 +10,13 @@ import Kingfisher
 import SwiftUI
 
 struct PostAddView: View {
-	@StateObject var viewModel = PostAddViewModel(service: PostService())
+	@StateObject var viewModel = PostAddViewModel()
 	@StateObject var locationViewModel = LocationViewModel()
 	@FocusState var isInputActive: Bool
 	
 	@Environment(\.dismiss) var dismiss
+	
+	let delegate: PostListViewOutput?
 	
 	@State private var isImagePickerPresented: Bool = false
 	@State private var isLocationViewPresented: Bool = false
@@ -173,17 +175,15 @@ struct PostAddView: View {
 			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
-					Task {
-						await viewModel.addPost()
-					}
-					dismiss()
+					viewModel.addAndClose()
 				} label: {
 					Text("Share")
 				}
-//				.disabled(checkIfValid)
+				.disabled(viewModel.isValid)
 			}
 		}
 		.onAppear(perform: {
+			viewModel.setDelegate(postListViewOutput: delegate)
 			viewModel.post.kind = selectedKind.rawValue.capitalized
 			viewModel.post.age = selectedAge.rawValue.capitalized
 			viewModel.post.gender = selectedGender.rawValue.capitalized
@@ -209,16 +209,6 @@ struct PostAddView: View {
 		}
 	}
 	
-	var checkIfValid: Bool {
-		viewModel.post.name.isEmpty ||
-			viewModel.post.about.isEmpty ||
-			viewModel.post.kind.isEmpty ||
-			viewModel.post.breed.isEmpty ||
-			viewModel.post.age.isEmpty ||
-			viewModel.post.gender.isEmpty ||
-			viewModel.image == UIImage()
-	}
-	
 	private func loadImage() {
 		viewModel.image = selectedImage
 	}
@@ -226,6 +216,6 @@ struct PostAddView: View {
 
 struct PostAddView_Previews: PreviewProvider {
 	static var previews: some View {
-		PostAddView()
+		PostAddView(delegate: nil)
 	}
 }

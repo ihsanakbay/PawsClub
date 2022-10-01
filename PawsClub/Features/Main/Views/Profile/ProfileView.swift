@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
 	@StateObject private var vm = ProfileViewModel(service: PostService())
 	@EnvironmentObject var authViewModel: AuthViewModel
+	@State private var isSettingPresented: Bool = false
 
 	var body: some View {
 		ScrollView {
@@ -54,7 +55,6 @@ struct ProfileView: View {
 						.padding()
 						.font(.title)
 						.foregroundColor(Color.theme.text)
-					
 
 					Button {
 						// Send message to user
@@ -93,6 +93,18 @@ struct ProfileView: View {
 		}
 		.task {
 			await vm.getUserPosts()
+		}
+		.toolbar {
+			ToolbarItem(placement: .navigationBarTrailing) {
+				Button {
+					isSettingPresented.toggle()
+				} label: {
+					Image(systemName: "gear")
+				}
+			}
+		}
+		.sheet(isPresented: $isSettingPresented) {
+			SettingsView()
 		}
 	}
 }

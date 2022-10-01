@@ -5,8 +5,8 @@
 //  Created by İhsan Akbay on 25.09.2022.
 //
 
-import SwiftUI
 import Firebase
+import SwiftUI
 
 enum NetworkServiceError: Error {
 	case failed
@@ -17,15 +17,7 @@ enum NetworkServiceError: Error {
 }
 
 class PostAddViewModel: ObservableObject {
-	
-	enum State {
-		case na
-		case loading
-		case success(success: Bool)
-		case failed(error: Error)
-	}
-	
-	@Published private(set) var state: State = .na
+	private var postListViewOutput: PostListViewOutput?
 	
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
@@ -33,73 +25,33 @@ class PostAddViewModel: ObservableObject {
 	@Published var hasError: Bool = false
 	@Published var errorMessage: String = ""
 	
-	private let service: PostService
-	
-	init(service: PostService) {
-		self.service = service
+	var isValid: Bool {
+		return post.name.isEmpty ||
+			post.about.isEmpty ||
+			post.age.isEmpty ||
+			post.gender.isEmpty ||
+			post.kind.isEmpty ||
+			post.breed.isEmpty ||
+			image == UIImage()
 	}
 	
-
-	@MainActor
-	func addPost() async {
-		do {
-			try await service.addPost(image: image, post: post)
-			self.state = .success(success: true)
-		} catch {
-			self.state = .failed(error: error)
-			self.hasError = true
-		}
-		
-//		guard let uid = Auth.auth().currentUser?.uid else {
-//			print("Invalid user id.")
-//			return
-//		}
-//		guard let user = Auth.auth().currentUser else {return}
-//		let username = user.displayName
-//		guard let imageData = image.jpegData(compressionQuality: 0.6) else { return }
-//		let ref = UploadType.Post.filePath
-//
-//		ref.putData(imageData) { _, error in
-//			if let error = error {
-//				self.hasError = true
-//				self.errorMessage = error.localizedDescription
-//			}
-//			ref.downloadURL { url, _ in
-//				guard let url = url?.absoluteString else { return }
-//				let data = [PostKeys.name.rawValue: self.post.name,
-//							PostKeys.about.rawValue: self.post.about,
-//							PostKeys.kind.rawValue: self.post.kind,
-//							PostKeys.breed.rawValue: self.post.breed,
-//							PostKeys.age.rawValue: self.post.age,
-//							PostKeys.gender.rawValue: self.post.gender,
-//							PostKeys.healthChecks.rawValue: self.post.healthChecks,
-//							PostKeys.isVaccinated.rawValue: self.post.isVaccinated,
-//							PostKeys.isNeutered.rawValue: self.post.isNeutered,
-//							PostKeys.imageUrl.rawValue: url,
-//							PostKeys.latitude.rawValue: self.post.latitude,
-//							PostKeys.longitude.rawValue: self.post.longitude,
-//							PostKeys.ownerUid.rawValue: uid,
-//							PostKeys.ownerUsername.rawValue: username,
-//							PostKeys.timestamp.rawValue: Timestamp(date: Date())] as [String: Any]
-//
-//				COLLECTION_POSTS.addDocument(data: data) { error in
-//					if let error = error {
-//						self.hasError = true
-//						self.errorMessage = error.localizedDescription
-//					}
-//					self.hasError = false
-//				}
-//			}
-//		}
+	init(postListViewOutput: PostListViewOutput? = nil) {
+		self.postListViewOutput = postListViewOutput
 	}
 	
+	func setDelegate(postListViewOutput: PostListViewOutput?) {
+		self.postListViewOutput = postListViewOutput
+	}
+	
+	func addAndClose() {
+		postListViewOutput?.addModelAndClose(post: post, image: image)
+	}
 	
 	@MainActor
 	func clear() {
 		post = Post.new
-		breed = Breed.init(dog: [], cat: [], fish: [], bird: [])
+		breed = Breed(dog: [], cat: [], fish: [], bird: [])
 	}
-	
 	
 	@MainActor
 	func fetchBreeds() async {
@@ -121,7 +73,7 @@ class PostAddViewModel: ObservableObject {
 		}
 	}
 	
-	private func downloadBreeds(_ resource: String) async throws ->  Result<Breed, Error>  {
+	private func downloadBreeds(_ resource: String) async throws -> Result<Breed, Error> {
 		guard let url = URL(string: resource) else { throw NetworkServiceError.invalidUrl }
 
 		let (data, response) = try await URLSession.shared.data(from: url)
