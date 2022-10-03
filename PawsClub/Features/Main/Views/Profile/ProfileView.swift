@@ -76,6 +76,7 @@ struct ProfileView: View {
 						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
 					} label: {
 						HomeViewListCell(post: post)
+							.redacted(reason: vm.isLoading ? .placeholder : [])
 					}
 				}
 			}

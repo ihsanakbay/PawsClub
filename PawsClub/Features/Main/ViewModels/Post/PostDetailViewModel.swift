@@ -55,7 +55,10 @@ final class PostDetailViewModel: ObservableObject {
 		            PostKeys.longitude.rawValue: post.longitude,
 		            PostKeys.ownerUid.rawValue: post.ownerUid,
 		            PostKeys.ownerUsername.rawValue: post.ownerUsername] as [String: Any]
-
+		
+		self.isLoading = true
+		defer { self.isLoading = false }
+		
 		do {
 			try await service.updatePost(postId: post.id!, data: data)
 		} catch {
@@ -65,6 +68,9 @@ final class PostDetailViewModel: ObservableObject {
 	}
 
 	func deletePost() async {
+		self.isLoading = true
+		defer { self.isLoading = false }
+		
 		if let postId = post.id {
 			do {
 				try await service.deletePost(postId: postId)
@@ -76,6 +82,9 @@ final class PostDetailViewModel: ObservableObject {
 	}
 
 	func likePost() async {
+		self.isLoading = true
+		defer { self.isLoading = false }
+		
 		if let postId = post.id,
 		   let uid = Auth.auth().currentUser?.uid
 		{
@@ -90,6 +99,9 @@ final class PostDetailViewModel: ObservableObject {
 	}
 
 	func unlikePost() async {
+		self.isLoading = true
+		defer { self.isLoading = false }
+		
 		if let postId = post.id,
 		   let uid = Auth.auth().currentUser?.uid
 		{

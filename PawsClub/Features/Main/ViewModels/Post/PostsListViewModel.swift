@@ -27,7 +27,7 @@ protocol PostListViewOutput {
 class PostsListViewModel: PostListViewModelProtocol {
 	@Published var posts = [Post]()
 	@Published var hasError: Bool = false
-	@Published var isLoading: Bool = true
+	@Published var isLoading: Bool = false
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
 	var errorMessage: String?
@@ -72,10 +72,11 @@ class PostsListViewModel: PostListViewModelProtocol {
 
 	@MainActor
 	func addPost(post: Post, image: UIImage) async {
+		self.isLoading = true
+		defer { self.isLoading = false }
 		do {
 			try await service.addPost(image: image, post: post)
 		} catch {
-			isLoading = false
 			hasError = true
 			errorMessage = error.localizedDescription
 		}

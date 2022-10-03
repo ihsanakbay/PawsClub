@@ -61,7 +61,6 @@ struct PostDetailView: View {
 						Divider()
 						
 						HStack {
-							Spacer()
 							Button {} label: {
 								Label("Send Message", systemImage: "envelope.fill")
 									.font(.system(size: 18, weight: .bold))
@@ -76,8 +75,8 @@ struct PostDetailView: View {
 					.padding(.horizontal)
 				}
 			}
-			.padding(.bottom, 32)
 			.ignoresSafeArea()
+			.padding(.bottom, 32)
 			.navigationBarHidden(true)
 		}
 		.onAppear {
@@ -214,6 +213,7 @@ extension PostDetailView {
 		} label: {
 			Image(systemName: "trash.fill")
 				.frame(width: 32, height: 32)
+				.background(Color.red)
 		}
 		.toolbarButton()
 		.confirmationDialog("Are you sure?", isPresented: $isShowingConfirmation, titleVisibility: .visible, actions: {

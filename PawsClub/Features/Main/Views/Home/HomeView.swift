@@ -21,6 +21,7 @@ struct HomeView: View {
 						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
 					} label: {
 						HomeViewListCell(post: post)
+							.redacted(reason: viewModel.isLoading ? .placeholder : [])
 					}
 				}
 			}

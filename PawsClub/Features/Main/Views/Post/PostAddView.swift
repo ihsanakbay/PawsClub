@@ -173,6 +173,7 @@ struct PostAddView: View {
 				Button {
 					viewModel.addAndClose()
 					isInputActive = false
+					dismiss()
 				} label: {
 					Text("Share")
 				}
