@@ -5,93 +5,85 @@
 //  Created by İhsan Akbay on 25.09.2022.
 //
 
+import Kingfisher
 import SwiftUI
 
 struct ProfileView: View {
-	@StateObject private var vm = ProfileViewModel(service: PostService())
-	@EnvironmentObject var authViewModel: AuthViewModel
+	@StateObject private var vm = ProfileViewModel(service: PostService(), authService: AuthenticationService())
+	@StateObject var authViewModel = AuthViewModel(service: AuthenticationService())
 	@State private var isSettingPresented: Bool = false
+	private var isUser: Bool { return authViewModel.user?.uid == vm.userDetails.id ? true : false }
 
 	var body: some View {
 		ScrollView {
-			switch vm.state {
-			case .success(data: let posts):
-				VStack(spacing: 8) {
-					AsyncImage(url: authViewModel.user?.photoURL) { phase in
-						if let image = phase.image {
-							image
-								.resizable()
-								.frame(width: 36, height: 27.5)
-								.foregroundColor(.white)
-								.padding(48)
-								.background(Color.theme.lightPinkColor)
-								.clipShape(Circle())
-								.frame(width: 100, height: 100)
-								.shadow(radius: 3)
-						} else if phase.error != nil {
-							Image(systemName: "questionmark.app.fill") // Indicates an error.
-								.resizable()
-								.frame(width: 36, height: 27.5)
-								.foregroundColor(.white)
-								.padding(48)
-								.background(Color.theme.lightPinkColor)
-								.clipShape(Circle())
-								.frame(width: 100, height: 100)
-								.shadow(radius: 3)
-						} else {
-							Image(systemName: "person.fill") // Acts as a placeholder.
-								.resizable()
-								.frame(width: 36, height: 27.5)
-								.foregroundColor(.white)
-								.padding(48)
-								.background(Color.theme.lightPinkColor)
-								.clipShape(Circle())
-								.frame(width: 100, height: 100)
-								.shadow(radius: 3)
-						}
+			HStack(spacing: 8) {
+				KFImage(URL(string: vm.userDetails.userImageUrl))
+					.placeholder { _ in
+						ProgressView()
 					}
+					.resizable()
+					.background(Color.theme.lightPinkColor)
+					.clipShape(Circle())
+					.frame(width: 100, height: 100)
+					.shadow(radius: 3)
 
-					Text(authViewModel.user?.displayName ?? "N/A")
-						.padding()
-						.font(.title)
-						.foregroundColor(Color.theme.text)
+				VStack(alignment: .leading, spacing: 8) {
+					Text(vm.userDetails.username)
+						.font(.headline)
+					Text(vm.userDetails.fullname)
+						.font(.subheadline)
+					Spacer()
 
-					Button {
-						// Send message to user
+					if isUser {
+						Button {} label: {
+							Label("Edit Profile", systemImage: "pencil")
+								.padding()
+								.font(.system(size: 16, weight: .bold))
+								.frame(height: 30)
+						}
+						.background(Color.theme.pinkColor)
+						.foregroundColor(.white)
+						.clipShape(RoundedRectangle(cornerRadius: 10))
+
+					} else {
+						Button {} label: {
+							Label("Send Message", systemImage: "envelope.fill")
+								.padding()
+								.font(.system(size: 16, weight: .bold))
+								.frame(height: 30)
+						}
+						.background(Color.theme.pinkColor)
+						.foregroundColor(.white)
+						.clipShape(RoundedRectangle(cornerRadius: 10))
+					}
+				}
+				.redacted(reason: vm.isLoading ? .placeholder : [])
+				.padding(.leading, 24)
+				.foregroundColor(Color.theme.text)
+
+				Spacer()
+			}
+			.padding(.vertical, 16)
+			.padding(.horizontal, 24)
+
+			Text("Posts")
+				.font(.headline)
+				.padding(.top, 16)
+
+			LazyVStack {
+				ForEach(vm.posts, id: \.id) { post in
+					NavigationLink {
+						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
 					} label: {
-						Label("Send Message", systemImage: "envelope")
-							.font(.body.bold())
-					}
-					.padding()
-					.buttonStyle(.borderedProminent)
-					.frame(height: 40)
-				}
-				.padding(32)
-
-				Text("Posts")
-					.font(.headline)
-
-				LazyVStack {
-					ForEach(posts, id: \.id) { post in
-						NavigationLink {
-							LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
-						} label: {
-							HomeViewListCell(post: post)
-						}
+						HomeViewListCell(post: post)
 					}
 				}
-			case .loading:
-				VStack {
-					Spacer()
-					ProgressView()
-						.tint(Color.theme.lightPinkColor)
-					Spacer()
-				}
-			default:
-				EmptyView()
 			}
 		}
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("Profile")
 		.task {
+			await vm.getUserDetails()
 			await vm.getUserPosts()
 		}
 		.toolbar {

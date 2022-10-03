@@ -9,11 +9,7 @@ import SwiftUI
 
 struct RegisterView: View {
 	@Environment(\.dismiss) var dismiss
-	@ObservedObject var viewModel: AuthViewModel
-	@State private var emailAddress: String = ""
-	@State private var password: String = ""
-	@State private var username: String = ""
-//	@State private var fullname: String = ""
+	@StateObject var viewModel: AuthViewModel
 	@FocusState var isInputActive: Bool
 	
 	var body: some View {
@@ -47,13 +43,16 @@ struct RegisterView: View {
 				.frame(maxWidth: .infinity, alignment: .center)
 				
 				VStack(spacing: 8) {
-					CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope.fill")
+					CustomTextField(text: $viewModel.email, placeholder: "Email", systemImageName: "envelope.fill")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
+					CustomTextField(text: $viewModel.password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
-					CustomTextField(text: $username, placeholder: "Username", systemImageName: "at")
+					CustomTextField(text: $viewModel.username, placeholder: "Username", systemImageName: "at")
+						.autocorrectionDisabled(true)
+						.textInputAutocapitalization(.never)
+					CustomTextField(text: $viewModel.fullname, placeholder: "Full Name", systemImageName: "person.fill")
 						.autocorrectionDisabled(true)
 						.textInputAutocapitalization(.never)
 				}
@@ -61,32 +60,19 @@ struct RegisterView: View {
 				
 				Button {
 					Task {
-						await viewModel.signUp(with: emailAddress, password: password, username: username)
+						await viewModel.signUp()
 					}
 				} label: {
 					Text("Register")
 						.font(.system(size: 18, weight: .bold))
+						.frame(height: 44)
+						.frame(maxWidth: .infinity)
 				}
+				.disabled(viewModel.isValidForSignUp)
 				.customButton()
 				
 				Spacer()
-				
-				Button {
-					dismiss()
-				} label: {
-					Text("Already have an account? ")
-						.foregroundColor(Color.theme.lightPinkColor)
-						.font(.subheadline) +
-						Text("Sign in")
-						.foregroundColor(Color.theme.lightPinkColor)
-						.font(.subheadline)
-						.bold()
-				}
-				.frame(maxWidth: .infinity)
-				.padding(.horizontal)
-				.padding(.top, 4)
 			}
-			.navigationBarHidden(true)
 			.alert(isPresented: $viewModel.hasError) {
 				Alert(title: Text("Error"), message: Text(viewModel.errorMessage))
 			}
@@ -105,6 +91,6 @@ struct RegisterView: View {
 
 struct RegisterView_Previews: PreviewProvider {
 	static var previews: some View {
-		RegisterView(viewModel: AuthViewModel())
+		RegisterView(viewModel: AuthViewModel(service: AuthenticationService()))
 	}
 }

@@ -58,6 +58,19 @@ struct PostDetailView: View {
 						descriptionSection
 						Divider()
 						ownerSection
+						Divider()
+						
+						HStack {
+							Spacer()
+							Button {} label: {
+								Label("Send Message", systemImage: "envelope.fill")
+									.font(.system(size: 18, weight: .bold))
+									.frame(height: 44)
+									.frame(maxWidth: .infinity)
+							}
+							.customButton()
+							Spacer()
+						}
 					}
 					.frame(maxWidth: .infinity, alignment: .leading)
 					.padding(.horizontal)
@@ -82,9 +95,9 @@ extension PostDetailView {
 	private var imageSection: some View {
 		TabView {
 			KFImage(URL(string: viewModel.post.imageUrl))
-				.placeholder({ progress in
+				.placeholder { _ in
 					ProgressView()
-				})
+				}
 				.resizable()
 				.scaledToFill()
 				.frame(width: screenSize.width)
@@ -205,8 +218,10 @@ extension PostDetailView {
 		.toolbarButton()
 		.confirmationDialog("Are you sure?", isPresented: $isShowingConfirmation, titleVisibility: .visible, actions: {
 			Button("Delete", role: .destructive) {
-				viewModel.deletePost()
-				dismiss()
+				Task {
+					await viewModel.deletePost()
+					dismiss()
+				}
 			}
 		})
 	}
@@ -218,7 +233,7 @@ struct ToolbarButtonModifiers: ViewModifier {
 			.frame(width: 32, height: 32)
 			.font(.headline)
 			.foregroundColor(Color.white)
-			.background(Color.theme.greenColor.opacity(0.5))
+			.background(Color.black.opacity(0.5))
 			.cornerRadius(16)
 			.shadow(color: .black.opacity(0.2), radius: 10, x: 10, y: 10)
 			.shadow(color: .white.opacity(0.2), radius: 10, x: -5, y: -5)

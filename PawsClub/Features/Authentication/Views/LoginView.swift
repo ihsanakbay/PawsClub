@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-	@EnvironmentObject private var viewModel: AuthViewModel
-	@State private var emailAddress: String = ""
-	@State private var password: String = ""
+	@StateObject var viewModel: AuthViewModel
 	@State private var isResetPasswordShowing: Bool = false
 	@FocusState var isInputActive: Bool
 	
@@ -45,10 +43,10 @@ struct LoginView: View {
 					.frame(maxWidth: .infinity, alignment: .center)
 					
 					VStack(spacing: 8) {
-						CustomTextField(text: $emailAddress, placeholder: "Email", systemImageName: "envelope.fill")
+						CustomTextField(text: $viewModel.email, placeholder: "Email", systemImageName: "envelope.fill")
 							.autocorrectionDisabled(true)
 							.textInputAutocapitalization(.never)
-						CustomTextField(text: $password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
+						CustomTextField(text: $viewModel.password, placeholder: "Password", systemImageName: "lock.fill", isSecure: true)
 							.autocorrectionDisabled(true)
 							.textInputAutocapitalization(.never)
 					}
@@ -67,18 +65,19 @@ struct LoginView: View {
 					
 					Button {
 						Task {
-							await viewModel.signIn(with: emailAddress, password: password)
+							await viewModel.signIn()
 						}
 					} label: {
 						Text("Login")
 							.font(.system(size: 18, weight: .bold))
+							.frame(height: 44)
+							.frame(maxWidth: .infinity)
 					}
+					.disabled(viewModel.isValidForSignIn)
 					.customButton()
 					
-					Spacer()
-					
 					NavigationLink {
-						RegisterView(viewModel: AuthViewModel())
+						RegisterView(viewModel: AuthViewModel(service: AuthenticationService()))
 					} label: {
 						Text("Don't have an account? ")
 							.foregroundColor(Color.theme.pinkColor)
@@ -91,6 +90,8 @@ struct LoginView: View {
 					.frame(maxWidth: .infinity)
 					.padding(.horizontal)
 					.padding(.top, 4)
+					
+					Spacer()
 				}
 				.navigationBarHidden(true)
 				.alert(isPresented: $viewModel.hasError) {
@@ -108,14 +109,15 @@ struct LoginView: View {
 				}
 			}
 			.sheet(isPresented: $isResetPasswordShowing) {
-				ForgotPasswordView(viewModel: AuthViewModel())
+				ForgotPasswordView(viewModel: AuthViewModel(service: AuthenticationService()))
 			}
 		}
+		.accentColor(Color.theme.pinkColor)
 	}
 }
 
 struct LoginView_Previews: PreviewProvider {
 	static var previews: some View {
-		LoginView()
+		LoginView(viewModel: AuthViewModel(service: AuthenticationService()))
 	}
 }

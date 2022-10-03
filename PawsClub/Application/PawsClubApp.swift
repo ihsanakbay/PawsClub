@@ -12,7 +12,7 @@ import FirebaseCore
 struct PawsClubApp: App {
 	
 	@UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-	@StateObject private var authViewModel = AuthViewModel()
+	@StateObject private var authViewModel = AuthViewModel(service: AuthenticationService())
 	
 	init() {
 		fixiOS15AppearanceIssues()
@@ -24,7 +24,7 @@ struct PawsClubApp: App {
 				if authViewModel.user != nil {
 					MainTabView()
 				} else {
-					LoginView()
+					LoginView(viewModel: AuthViewModel(service: AuthenticationService()))
 				}
 			}
 			.environmentObject(authViewModel)

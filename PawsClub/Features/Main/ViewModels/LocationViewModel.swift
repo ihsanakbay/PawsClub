@@ -10,6 +10,7 @@ import Combine
 import MapKit
 import CoreLocation
 
+
 final class LocationViewModel: NSObject, ObservableObject, MKMapViewDelegate, CLLocationManagerDelegate {
 	
 	@Published var mapView: MKMapView = .init()

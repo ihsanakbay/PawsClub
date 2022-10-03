@@ -16,6 +16,7 @@ enum NetworkServiceError: Error {
 	case invalidServerResponse
 }
 
+@MainActor
 class PostAddViewModel: ObservableObject {
 	private var postListViewOutput: PostListViewOutput?
 	
@@ -47,13 +48,6 @@ class PostAddViewModel: ObservableObject {
 		postListViewOutput?.addModelAndClose(post: post, image: image)
 	}
 	
-	@MainActor
-	func clear() {
-		post = Post.new
-		breed = Breed(dog: [], cat: [], fish: [], bird: [])
-	}
-	
-	@MainActor
 	func fetchBreeds() async {
 		do {
 			let result = try await downloadBreeds(BREED_URL)

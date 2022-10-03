@@ -5,60 +5,46 @@
 //  Created by İhsan Akbay on 25.09.2022.
 //
 
-import SwiftUI
 import Firebase
+import SwiftUI
 
+@MainActor
 final class FavoritesViewModel: ObservableObject {
 	@Published var posts = [Post]()
 	@Published var hasError: Bool = false
 	@Published var isLoading: Bool = true
 	var errorMessage: String?
 
-	private var listenerRegistration: ListenerRegistration?
-	private let service: PostService
-
-	init(service: PostService) {
-		self.service = service
-		subscribe()
+	init() {
+		self.fetchLikedPosts()
 	}
 
-	deinit {
-		unsubscribe()
-	}
+	func fetchLikedPosts() {
+		self.isLoading = true
+		defer { self.isLoading = false }
 
-	func unsubscribe() {
-		if listenerRegistration != nil {
-			listenerRegistration?.remove()
-			listenerRegistration = nil
+		guard let uid = Auth.auth().currentUser?.uid else { return }
+		COLLECTION_USERS.document(uid).collection("user-likes").getDocuments { snapshot, err in
+			if let err = err {
+				self.hasError = true
+				self.errorMessage = err.localizedDescription
+				return
+			}
+			guard let documents = snapshot?.documents else { return }
+			for document in documents {
+				COLLECTION_POSTS.document(document.documentID).getDocument { postSnapshot, err in
+					if let err = err {
+						self.hasError = true
+						self.errorMessage = err.localizedDescription
+						return
+					}
+					guard let post = postSnapshot else { return }
+					let newValue = try? post.data(as: Post.self)
+					if let newValue = newValue {
+						self.posts.append(newValue)
+					}
+				}
+			}
 		}
 	}
-
-	func subscribe() {
-//		if listenerRegistration == nil {
-//			listenerRegistration = COLLECTION_POSTS
-//				.order(by: "timestamp", descending: true)
-//				.addSnapshotListener { querySnapshot, error in
-//					if let error = error {
-//						self.changeError()
-//					}
-//					guard let documents = querySnapshot?.documents else { return }
-//					self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in
-//						try? queryDocumentSnapshot.data(as: Post.self)
-//					}
-//				}
-//		}
-	}
-	
-	func changeLoading() {
-		DispatchQueue.main.async {
-			self.isLoading.toggle()
-		}
-	}
-
-	func changeError() {
-		DispatchQueue.main.async {
-			self.hasError.toggle()
-		}
-	}
-
 }

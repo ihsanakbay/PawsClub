@@ -25,6 +25,8 @@ struct HomeView: View {
 				}
 			}
 		}
+		.navigationBarTitleDisplayMode(.inline)
+		.navigationTitle("Home")
 		.toolbar {
 			ToolbarItem(placement: .navigationBarLeading) {
 				Button {
@@ -35,7 +37,7 @@ struct HomeView: View {
 			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
-					viewModel.changeAddView()
+					self.isPostAddViewPresented = true
 				} label: {
 					Image(systemName: "plus.app.fill")
 				}
@@ -51,9 +53,20 @@ struct HomeView: View {
 					viewModel.subscribe()
 				}))
 		}
-		.sheet(isPresented: $viewModel.isAddView, content: {
+		.sheet(isPresented: $isPostAddViewPresented, content: {
 			NavigationView {
 				PostAddView(delegate: viewModel)
+					.toolbar {
+						ToolbarItem(placement: .navigationBarLeading) {
+							Button {
+								self.isPostAddViewPresented = false
+								viewModel.clear()
+							} label: {
+								Text("Cancel")
+							}
+							.foregroundColor(.red)
+						}
+					}
 			}
 		})
 		.sheet(isPresented: $isFilterSheetOpen) {

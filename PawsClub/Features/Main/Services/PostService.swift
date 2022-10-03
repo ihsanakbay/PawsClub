@@ -48,6 +48,14 @@ struct PostService {
 		_ = try await COLLECTION_POSTS.addDocument(data: data)
 	}
 
+	func updatePost(postId: String, data: [String: Any]) async throws {
+		try await COLLECTION_POSTS.document(postId).setData(data)
+	}
+
+	func deletePost(postId: String) async throws {
+		try await COLLECTION_POSTS.document(postId).delete()
+	}
+
 	func likePost(uid: String, postId: String) async throws {
 		try await COLLECTION_POSTS.document(postId).collection("post-likes").document(uid).setData([:])
 		try await COLLECTION_USERS.document(uid).collection("user-likes").document(postId).setData([:])

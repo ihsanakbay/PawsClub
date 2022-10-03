@@ -11,17 +11,12 @@ import SwiftUI
 protocol PostListViewModelProtocol: ObservableObject {
 	var isLoading: Bool { get set }
 	var hasError: Bool { get set }
-	var isAddView: Bool { get set }
 	var posts: [Post] { get set }
 	var breed: Breed { get set }
 
 	func subscribe()
 	func unsubscribe()
 	func addPost(post: Post, image: UIImage) async
-	
-	func changeLoading()
-	func changeError()
-	func changeAddView()
 	func clear()
 }
 
@@ -33,7 +28,6 @@ class PostsListViewModel: PostListViewModelProtocol {
 	@Published var posts = [Post]()
 	@Published var hasError: Bool = false
 	@Published var isLoading: Bool = true
-	@Published var isAddView: Bool = false
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
 	var errorMessage: String?
@@ -43,7 +37,9 @@ class PostsListViewModel: PostListViewModelProtocol {
 
 	init(service: PostService) {
 		self.service = service
-		subscribe()
+		Task {
+			await subscribe()
+		}
 	}
 
 	deinit {
@@ -57,13 +53,14 @@ class PostsListViewModel: PostListViewModelProtocol {
 		}
 	}
 
+	@MainActor
 	func subscribe() {
 		if listenerRegistration == nil {
 			listenerRegistration = COLLECTION_POSTS
 				.order(by: "timestamp", descending: true)
 				.addSnapshotListener { querySnapshot, error in
 					if let error = error {
-						self.changeError()
+						self.hasError = true
 					}
 					guard let documents = querySnapshot?.documents else { return }
 					self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in
@@ -72,14 +69,14 @@ class PostsListViewModel: PostListViewModelProtocol {
 				}
 		}
 	}
-	
+
 	@MainActor
 	func addPost(post: Post, image: UIImage) async {
 		do {
 			try await service.addPost(image: image, post: post)
 		} catch {
-			changeLoading()
-			changeError()
+			isLoading = false
+			hasError = true
 			errorMessage = error.localizedDescription
 		}
 	}
@@ -91,32 +88,11 @@ class PostsListViewModel: PostListViewModelProtocol {
 	}
 }
 
-extension PostsListViewModel {
-	func changeLoading() {
-		DispatchQueue.main.async {
-			self.isLoading.toggle()
-		}
-	}
-
-	func changeError() {
-		DispatchQueue.main.async {
-			self.hasError.toggle()
-		}
-	}
-
-	func changeAddView() {
-		DispatchQueue.main.async {
-			self.isAddView.toggle()
-		}
-	}
-}
-
 extension PostsListViewModel: PostListViewOutput {
 	@MainActor
 	func addModelAndClose(post: Post, image: UIImage) {
 		Task {
 			await addPost(post: post, image: image)
 		}
-		changeAddView()
 	}
 }

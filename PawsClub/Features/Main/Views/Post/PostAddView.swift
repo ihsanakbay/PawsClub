@@ -10,11 +10,10 @@ import Kingfisher
 import SwiftUI
 
 struct PostAddView: View {
+	@Environment(\.dismiss) var dismiss
 	@StateObject var viewModel = PostAddViewModel()
 	@StateObject var locationViewModel = LocationViewModel()
 	@FocusState var isInputActive: Bool
-	
-	@Environment(\.dismiss) var dismiss
 	
 	let delegate: PostListViewOutput?
 	
@@ -67,10 +66,12 @@ struct PostAddView: View {
 						.padding(.horizontal, -5)
 						.padding(.vertical, -5)
 						.frame(minHeight: 120)
+						.focused($isInputActive)
 					Text("About")
 						.foregroundColor(Color.theme.placeholder)
 						.padding(.top, 3)
 						.opacity(viewModel.post.about.isEmpty ? 1 : 0)
+						.focused($isInputActive)
 				}
 				
 				Picker("Kind", selection: $selectedKind) {
@@ -136,12 +137,13 @@ struct PostAddView: View {
 				HStack {
 					Text("Location")
 					Spacer()
+						
 					Text(selectedLocationName)
 						.foregroundColor(Color.gray)
 					Image(systemName: "chevron.right")
 						.font(.subheadline)
-						.foregroundColor(Color.gray)
 				}
+				.contentShape(Rectangle())
 				.onTapGesture {
 					isLocationViewPresented.toggle()
 				}
@@ -166,16 +168,11 @@ struct PostAddView: View {
 					hideKeyboard()
 				}
 			}
-			ToolbarItem(placement: .navigationBarLeading) {
-				Button("Cancel", role: .cancel) {
-					viewModel.clear()
-					dismiss()
-				}
-				.foregroundColor(.red)
-			}
+			
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
 					viewModel.addAndClose()
+					isInputActive = false
 				} label: {
 					Text("Share")
 				}
@@ -197,7 +194,6 @@ struct PostAddView: View {
 			}
 		})
 		.onDisappear(perform: {
-			viewModel.clear()
 			locationViewModel.userLocationName = ""
 			selectedLocationName = ""
 		})

@@ -40,8 +40,6 @@ struct MainTabView: View {
 				Label("Profile", systemImage: "person")
 			}
 		}
-		.navigationBarTitleDisplayMode(.inline)
-		.navigationTitle(selectedTab.rawValue.capitalized)
 		.accentColor(Color.theme.pinkColor)
 	}
 }
@@ -49,6 +47,6 @@ struct MainTabView: View {
 struct MainTabView_Previews: PreviewProvider {
 	static var previews: some View {
 		MainTabView()
-			.environmentObject(AuthViewModel())
+			.environmentObject(AuthViewModel(service: AuthenticationService()))
 	}
 }

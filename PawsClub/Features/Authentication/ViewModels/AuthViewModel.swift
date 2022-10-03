@@ -5,7 +5,7 @@
 //  Created by İhsan Akbay on 25.09.2022.
 //
 
-import FirebaseAuth
+import Firebase
 import SwiftUI
 
 enum RegistrationKeys: String {
@@ -13,19 +13,43 @@ enum RegistrationKeys: String {
 	case username
 }
 
+@MainActor
 final class AuthViewModel: ObservableObject {
 	@Published var hasError: Bool = false
 	@Published var errorMessage: String = ""
+	@Published var userDetails: UserDetails = .new
+	@Published var email: String = ""
+	@Published var password: String = ""
+	@Published var username: String = ""
+	@Published var fullname: String = ""
+	@Published var image: UIImage = UIImage(named: "default_user")!
+
 	var user: User? {
 		didSet {
 			objectWillChange.send()
 		}
 	}
 
+	var isValidForSignIn: Bool {
+		return email.isEmpty || password.isEmpty
+	}
+
+	var isValidForSignUp: Bool {
+		return username.isEmpty ||
+			email.isEmpty ||
+			password.isEmpty ||
+			fullname.isEmpty
+	}
+
 	private var handler: AuthStateDidChangeListenerHandle?
+	let service: AuthenticationService
+
+	init(service: AuthenticationService) {
+		self.service = service
+	}
 
 	func listenToAuthState() {
-		self.handler = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+		handler = Auth.auth().addStateDidChangeListener { [weak self] _, user in
 			guard let self = self else {
 				return
 			}
@@ -39,39 +63,41 @@ final class AuthViewModel: ObservableObject {
 		}
 	}
 
-	func signIn(with email: String, password: String) async {
+	func signIn() async {
 		do {
-			try await Auth.auth().signIn(withEmail: email, password: password)
+			try await service.signIn(email: email,
+			                         password: password)
 		} catch {
-			self.hasError = true
-			self.errorMessage = error.localizedDescription
+			hasError = true
+			errorMessage = error.localizedDescription
 		}
 	}
 
-	func signUp(with email: String, password: String, username: String) async {
+	func signUp() async {
 		do {
-			let result = try await Auth.auth().createUser(withEmail: email, password: password)
-			let changeRequest = result.user.createProfileChangeRequest()
-			changeRequest.displayName = username
-			try await changeRequest.commitChanges()
+			try await service.signUp(email: email,
+			                         password: password,
+			                         username: username,
+			                         fullname: fullname,
+			                         image: image)
 		} catch {
-			self.hasError = true
-			self.errorMessage = "Something went wrong: \(error.localizedDescription)"
+			hasError = true
+			errorMessage = error.localizedDescription
 		}
 	}
 
-	func resetPassword(with email: String) async {
+	func resetPassword() async {
 		do {
-			try await Auth.auth().sendPasswordReset(withEmail: email)
+			try await service.resetPassword(email: email)
 		} catch {
-			self.hasError = true
-			self.errorMessage = error.localizedDescription
+			hasError = true
+			errorMessage = error.localizedDescription
 		}
 	}
 
 	func signOut() async {
 		do {
-			try Auth.auth().signOut()
+			try await service.signOut()
 		} catch let signOutError as NSError {
 			self.hasError = true
 			self.errorMessage = "Error while signing out: \(signOutError)"

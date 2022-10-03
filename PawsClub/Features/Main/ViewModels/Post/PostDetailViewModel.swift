@@ -40,7 +40,7 @@ final class PostDetailViewModel: ObservableObject {
 			.store(in: &cancellables)
 	}
 
-	func updatePost() {
+	func updatePost() async {
 		let data = [PostKeys.name.rawValue: post.name,
 		            PostKeys.about.rawValue: post.about,
 		            PostKeys.kind.rawValue: post.kind,
@@ -56,25 +56,21 @@ final class PostDetailViewModel: ObservableObject {
 		            PostKeys.ownerUid.rawValue: post.ownerUid,
 		            PostKeys.ownerUsername.rawValue: post.ownerUsername] as [String: Any]
 
-		COLLECTION_POSTS.document(post.id!).setData(data) { error in
-			if let error = error {
-				self.hasError = true
-				self.errorMessage = error.localizedDescription
-			} else {
-				self.hasError = false
-			}
+		do {
+			try await service.updatePost(postId: post.id!, data: data)
+		} catch {
+			self.hasError = true
+			self.errorMessage = error.localizedDescription
 		}
 	}
 
-	func deletePost() {
+	func deletePost() async {
 		if let postId = post.id {
-			COLLECTION_POSTS.document(postId).delete { error in
-				if let error = error {
-					self.hasError = true
-					self.errorMessage = error.localizedDescription
-				} else {
-					self.hasError = false
-				}
+			do {
+				try await service.deletePost(postId: postId)
+			} catch {
+				hasError = true
+				errorMessage = error.localizedDescription
 			}
 		}
 	}

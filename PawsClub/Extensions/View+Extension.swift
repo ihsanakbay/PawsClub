@@ -43,3 +43,17 @@ private func fixiOS15TabBarIssues() {
 	UITabBar.appearance().scrollEdgeAppearance = appearance
 	//	}
 }
+
+extension Image {
+	func profileImageModifier() -> some View {
+		self
+			.resizable()
+			.frame(width: 36, height: 27.5)
+			.foregroundColor(.white)
+			.padding(36)
+			.background(Color.theme.lightPinkColor)
+			.clipShape(Circle())
+			.frame(width: 80, height: 80)
+			.shadow(radius: 3)
+	}
+}
