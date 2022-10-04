@@ -182,7 +182,7 @@ extension PostDetailView {
 				.font(.headline)
 			
 			NavigationLink {
-//				LazyView(ProfileView(uid: viewModel.post.ownerUid))
+				LazyView(ProfileView(uid: viewModel.post.ownerUid))
 			} label: {
 				VStack(alignment: .leading, spacing: 4) {
 					Text(viewModel.post.ownerUsername)

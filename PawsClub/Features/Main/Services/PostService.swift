@@ -11,8 +11,7 @@ import FirebaseFirestoreSwift
 import SwiftUI
 
 struct PostService {
-	func getUserPosts() async throws -> [Post] {
-		guard let uid = Auth.auth().currentUser?.uid else { throw FirebaseError.noUid }
+	func getUserPosts(uid: String) async throws -> [Post] {
 		let snapshot = try await COLLECTION_POSTS.whereField("ownerUid", isEqualTo: uid).getDocuments()
 		return snapshot.documents.compactMap { document in
 			try? document.data(as: Post.self)

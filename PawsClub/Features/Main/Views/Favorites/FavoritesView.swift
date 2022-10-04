@@ -13,16 +13,13 @@ struct FavoritesView: View {
 
 	var body: some View {
 		ScrollView(showsIndicators: false) {
-			if viewModel.isLoading {
-				ProgressView()
-			} else {
-				LazyVStack {
-					ForEach(viewModel.posts, id: \.id) { post in
-						NavigationLink {
-							LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
-						} label: {
-							HomeViewListCell(post: post)
-						}
+			LazyVStack {
+				ForEach(viewModel.posts, id: \.id) { post in
+					NavigationLink {
+						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
+					} label: {
+						HomeViewListCell(post: post)
+							.redacted(reason: viewModel.isLoading ? .placeholder : [])
 					}
 				}
 			}

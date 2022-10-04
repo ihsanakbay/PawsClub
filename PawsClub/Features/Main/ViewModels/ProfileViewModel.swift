@@ -23,23 +23,22 @@ class ProfileViewModel: ObservableObject {
 		self.authService = authService
 	}
 	
-	func getUserPosts() async {
+	func getUserPosts(uid: String) async {
 		self.isLoading = true
 		defer { self.isLoading = false }
 		
 		do {
-			let posts = try await service.getUserPosts()
+			let posts = try await service.getUserPosts(uid: uid)
 			self.posts = posts
 		} catch {
 			self.errorMessage = error.localizedDescription
 		}
 	}
 	
-	func getUserDetails() async {
+	func getUserDetails(uid: String) async {
 		self.isLoading = true
 		defer { self.isLoading = false }
-		
-		guard let uid = Auth.auth().currentUser?.uid else { return }
+
 		do {
 			let result = try await authService.getUserDetails(uid: uid)
 			if let result = result {

@@ -12,7 +12,7 @@ import SwiftUI
 final class FavoritesViewModel: ObservableObject {
 	@Published var posts = [Post]()
 	@Published var hasError: Bool = false
-	@Published var isLoading: Bool = true
+	@Published var isLoading: Bool = false
 	var errorMessage: String?
 
 	init() {

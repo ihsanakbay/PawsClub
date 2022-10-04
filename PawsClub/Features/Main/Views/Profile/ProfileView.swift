@@ -9,15 +9,17 @@ import Kingfisher
 import SwiftUI
 
 struct ProfileView: View {
-	@StateObject private var vm = ProfileViewModel(service: PostService(), authService: AuthenticationService())
-	@StateObject var authViewModel = AuthViewModel(service: AuthenticationService())
+	@StateObject private var viewModel = ProfileViewModel(service: PostService(), authService: AuthenticationService())
+	@EnvironmentObject var authViewModel: AuthViewModel
 	@State private var isSettingPresented: Bool = false
-	private var isUser: Bool { return authViewModel.user?.uid == vm.userDetails.id ? true : false }
+	var uid: String?
+	
+	private var isUser: Bool { return authViewModel.user?.uid == viewModel.userDetails.id ? true : false }
 
 	var body: some View {
 		ScrollView {
 			HStack(spacing: 8) {
-				KFImage(URL(string: vm.userDetails.userImageUrl))
+				KFImage(URL(string: viewModel.userDetails.userImageUrl))
 					.placeholder { _ in
 						ProgressView()
 					}
@@ -28,9 +30,9 @@ struct ProfileView: View {
 					.shadow(radius: 3)
 
 				VStack(alignment: .leading, spacing: 8) {
-					Text(vm.userDetails.username)
+					Text(viewModel.userDetails.username)
 						.font(.headline)
-					Text(vm.userDetails.fullname)
+					Text(viewModel.userDetails.fullname)
 						.font(.subheadline)
 					Spacer()
 
@@ -57,7 +59,7 @@ struct ProfileView: View {
 						.clipShape(RoundedRectangle(cornerRadius: 10))
 					}
 				}
-				.redacted(reason: vm.isLoading ? .placeholder : [])
+				.redacted(reason: viewModel.isLoading ? .placeholder : [])
 				.padding(.leading, 24)
 				.foregroundColor(Color.theme.text)
 
@@ -71,12 +73,12 @@ struct ProfileView: View {
 				.padding(.top, 16)
 
 			LazyVStack {
-				ForEach(vm.posts, id: \.id) { post in
+				ForEach(viewModel.posts, id: \.id) { post in
 					NavigationLink {
 						LazyView(PostDetailView(viewModel: PostDetailViewModel(post: post, service: PostService())))
 					} label: {
 						HomeViewListCell(post: post)
-							.redacted(reason: vm.isLoading ? .placeholder : [])
+							.redacted(reason: viewModel.isLoading ? .placeholder : [])
 					}
 				}
 			}
@@ -84,8 +86,13 @@ struct ProfileView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("Profile")
 		.task {
-			await vm.getUserDetails()
-			await vm.getUserPosts()
+			if let uid = uid {
+				await viewModel.getUserDetails(uid: uid)
+				await viewModel.getUserPosts(uid: uid)
+			} else if let authUid = authViewModel.user?.uid {
+				await viewModel.getUserDetails(uid: authUid)
+				await viewModel.getUserPosts(uid: authUid)
+			}
 		}
 		.toolbar {
 			ToolbarItem(placement: .navigationBarTrailing) {
