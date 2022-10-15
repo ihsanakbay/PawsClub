@@ -36,8 +36,11 @@ class PostAddViewModel: ObservableObject {
 			image == UIImage()
 	}
 	
-	init(postListViewOutput: PostListViewOutput? = nil) {
+	let service: BreedService
+	
+	init(postListViewOutput: PostListViewOutput? = nil, service: BreedService) {
 		self.postListViewOutput = postListViewOutput
+		self.service = service
 	}
 	
 	func setDelegate(postListViewOutput: PostListViewOutput?) {
@@ -50,7 +53,7 @@ class PostAddViewModel: ObservableObject {
 	
 	func fetchBreeds() async {
 		do {
-			let result = try await downloadBreeds(BREED_URL)
+			let result = try await service.getBreeds(BREED_URL)
 			switch result {
 			case .success(let data):
 				breed = data
@@ -64,23 +67,6 @@ class PostAddViewModel: ObservableObject {
 			hasError = true
 			errorMessage = error.localizedDescription
 			return
-		}
-	}
-	
-	private func downloadBreeds(_ resource: String) async throws -> Result<Breed, Error> {
-		guard let url = URL(string: resource) else { throw NetworkServiceError.invalidUrl }
-
-		let (data, response) = try await URLSession.shared.data(from: url)
-
-		guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-			throw NetworkServiceError.invalidServerResponse
-		}
-		
-		do {
-			let result = try JSONDecoder().decode(Breed.self, from: data)
-			return .success(result)
-		} catch {
-			return .failure(error)
 		}
 	}
 }

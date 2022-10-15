@@ -33,6 +33,7 @@
 		F91FCC3F28B2CE6800C0B07E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC3E28B2CE6800C0B07E /* FirebaseFirestore */; };
 		F91FCC4128B2CE6800C0B07E /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4028B2CE6800C0B07E /* FirebaseFirestoreSwift */; };
 		F91FCC4328B2CE6800C0B07E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F91FCC4228B2CE6800C0B07E /* FirebaseStorage */; };
+		F938DC2C28F5F2A1008C1919 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F938DC2B28F5F2A1008C1919 /* Array+Extension.swift */; };
 		F95345E828CCFE970080B83E /* FirebaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95345E728CCFE970080B83E /* FirebaseError.swift */; };
 		F95345EE28CD4D2B0080B83E /* ServiceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95345ED28CD4D2B0080B83E /* ServiceState.swift */; };
 		F95779B928C53D8C0014DC33 /* LocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F95779B828C53D8C0014DC33 /* LocationViewModel.swift */; };
@@ -49,9 +50,11 @@
 		F980001028E080E5001B7128 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980000F28E080E5001B7128 /* FavoritesView.swift */; };
 		F980001228E0815B001B7128 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980001128E0815B001B7128 /* FavoritesViewModel.swift */; };
 		F980FFFE28DFCCB0001B7128 /* PostDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980FFFD28DFCCB0001B7128 /* PostDetailViewModel.swift */; };
+		F990DF4C28F16E4100928926 /* MultiSelectPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F990DF4B28F16E4100928926 /* MultiSelectPickerView.swift */; };
 		F9A1858828C38A2A008F242C /* Breed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858728C38A2A008F242C /* Breed.swift */; };
 		F9A1858D28C3BCDD008F242C /* PickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9A1858C28C3BCDD008F242C /* PickerData.swift */; };
 		F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9C2FFE728BFF82B00331EF6 /* Post.swift */; };
+		F9E3002C28F499E7007381A1 /* BreedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E3002B28F499E7007381A1 /* BreedService.swift */; };
 		F9E58B7528E8C521004998BB /* LocalizableKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E58B7428E8C521004998BB /* LocalizableKeys.swift */; };
 		F9E58B7828E8D3A5004998BB /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = F9E58B7728E8D3A5004998BB /* Kingfisher */; };
 		F9E996DE28C3E6C400D67478 /* PhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E996DD28C3E6C400D67478 /* PhotoPicker.swift */; };
@@ -100,6 +103,7 @@
 		F91FCC2528B2BCE300C0B07E /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
 		F91FCC3428B2CA1800C0B07E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F91FCC3728B2CAA200C0B07E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		F938DC2B28F5F2A1008C1919 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		F95345E728CCFE970080B83E /* FirebaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseError.swift; sourceTree = "<group>"; };
 		F95345ED28CD4D2B0080B83E /* ServiceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceState.swift; sourceTree = "<group>"; };
 		F95779B828C53D8C0014DC33 /* LocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationViewModel.swift; sourceTree = "<group>"; };
@@ -117,10 +121,12 @@
 		F980001128E0815B001B7128 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		F980FFFD28DFCCB0001B7128 /* PostDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewModel.swift; sourceTree = "<group>"; };
 		F980FFFF28DFD71A001B7128 /* PostAddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostAddViewModel.swift; sourceTree = "<group>"; };
+		F990DF4B28F16E4100928926 /* MultiSelectPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSelectPickerView.swift; sourceTree = "<group>"; };
 		F9A1858728C38A2A008F242C /* Breed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Breed.swift; sourceTree = "<group>"; };
 		F9A1858C28C3BCDD008F242C /* PickerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerData.swift; sourceTree = "<group>"; };
 		F9C2FFE728BFF82B00331EF6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F9CCEB0528B6A78E004EFC44 /* PawsClub.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PawsClub.entitlements; sourceTree = "<group>"; };
+		F9E3002B28F499E7007381A1 /* BreedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreedService.swift; sourceTree = "<group>"; };
 		F9E58B7428E8C521004998BB /* LocalizableKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizableKeys.swift; sourceTree = "<group>"; };
 		F9E996DD28C3E6C400D67478 /* PhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -263,6 +269,7 @@
 				F91FCC1C28B2B6DC00C0B07E /* Color+Extension.swift */,
 				F91FCC1E28B2B8F000C0B07E /* View+Extension.swift */,
 				F9174D4828B4075900762717 /* Button+Extension.swift */,
+				F938DC2B28F5F2A1008C1919 /* Array+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -292,6 +299,7 @@
 			isa = PBXGroup;
 			children = (
 				F91FCC3728B2CAA200C0B07E /* CustomTextField.swift */,
+				F990DF4B28F16E4100928926 /* MultiSelectPickerView.swift */,
 			);
 			path = ReusableViews;
 			sourceTree = "<group>";
@@ -332,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				F918141028E380F3006DE03C /* PostService.swift */,
+				F9E3002B28F499E7007381A1 /* BreedService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -591,6 +600,7 @@
 				F91FCBD628B2A3E700C0B07E /* PawsClubApp.swift in Sources */,
 				F91FCC0D28B2AFBD00C0B07E /* HomeView.swift in Sources */,
 				F9A1858D28C3BCDD008F242C /* PickerData.swift in Sources */,
+				F9E3002C28F499E7007381A1 /* BreedService.swift in Sources */,
 				F95779BB28C53E780014DC33 /* LocationView.swift in Sources */,
 				F91FCC3528B2CA1800C0B07E /* LoginView.swift in Sources */,
 				F91FCC0628B2AE0A00C0B07E /* MainTabView.swift in Sources */,
@@ -604,6 +614,7 @@
 				F9A1858828C38A2A008F242C /* Breed.swift in Sources */,
 				F9E58B7528E8C521004998BB /* LocalizableKeys.swift in Sources */,
 				F9C2FFE828BFF82B00331EF6 /* Post.swift in Sources */,
+				F938DC2C28F5F2A1008C1919 /* Array+Extension.swift in Sources */,
 				F91FCC1F28B2B8F000C0B07E /* View+Extension.swift in Sources */,
 				F980000528E06483001B7128 /* AuthViewModel.swift in Sources */,
 				F91FCC1D28B2B6DC00C0B07E /* Color+Extension.swift in Sources */,
@@ -611,6 +622,7 @@
 				F9174D4528B3F8DD00762717 /* RegisterView.swift in Sources */,
 				F980000A28E07238001B7128 /* ProfileView.swift in Sources */,
 				F95345EE28CD4D2B0080B83E /* ServiceState.swift in Sources */,
+				F990DF4C28F16E4100928926 /* MultiSelectPickerView.swift in Sources */,
 				F9174D4328B3F6DE00762717 /* ForgotPasswordView.swift in Sources */,
 				F95BF00928DFB10C00836081 /* PostsListViewModel.swift in Sources */,
 				F961270628C299F1004086DA /* PostAddView.swift in Sources */,

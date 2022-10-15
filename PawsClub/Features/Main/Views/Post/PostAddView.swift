@@ -11,7 +11,7 @@ import SwiftUI
 
 struct PostAddView: View {
 	@Environment(\.dismiss) var dismiss
-	@StateObject var viewModel = PostAddViewModel()
+	@StateObject var viewModel = PostAddViewModel(service: BreedService())
 	@StateObject var locationViewModel = LocationViewModel()
 	@FocusState var isInputActive: Bool
 	

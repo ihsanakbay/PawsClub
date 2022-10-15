@@ -30,6 +30,7 @@ class PostsListViewModel: PostListViewModelProtocol {
 	@Published var isLoading: Bool = false
 	@Published var post: Post = .new
 	@Published var breed: Breed = .init(dog: [], cat: [], fish: [], bird: [])
+	
 	var errorMessage: String?
 
 	private var listenerRegistration: ListenerRegistration?
@@ -61,6 +62,7 @@ class PostsListViewModel: PostListViewModelProtocol {
 				.addSnapshotListener { querySnapshot, error in
 					if let error = error {
 						self.hasError = true
+						self.errorMessage = error.localizedDescription
 					}
 					guard let documents = querySnapshot?.documents else { return }
 					self.posts = documents.compactMap { queryDocumentSnapshot -> Post? in

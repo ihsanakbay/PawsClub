@@ -11,7 +11,6 @@ struct HomeView: View {
 	@StateObject var viewModel = PostsListViewModel(service: PostService())
 	@StateObject var locationViewModel = LocationViewModel()
 	@State private var isPostAddViewPresented: Bool = false
-	@State private var isFilterSheetOpen: Bool = false
 
 	var body: some View {
 		ScrollView(showsIndicators: false) {
@@ -29,13 +28,6 @@ struct HomeView: View {
 		.navigationBarTitleDisplayMode(.inline)
 		.navigationTitle("Home")
 		.toolbar {
-			ToolbarItem(placement: .navigationBarLeading) {
-				Button {
-					isFilterSheetOpen.toggle()
-				} label: {
-					Image(systemName: "slider.horizontal.3")
-				}
-			}
 			ToolbarItem(placement: .navigationBarTrailing) {
 				Button {
 					self.isPostAddViewPresented = true
@@ -70,9 +62,6 @@ struct HomeView: View {
 					}
 			}
 		})
-		.sheet(isPresented: $isFilterSheetOpen) {
-//				FilterView(selectedKinds: [], selectedBreeds: [], selectedGender: [], selectedAge: [])
-		}
 	}
 }
 
